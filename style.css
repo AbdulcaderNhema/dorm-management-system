@@ -1,131 +1,165 @@
-/* Custom MSU Maroon & Cute Gold Color Scheme Customization */
+/* Official MSU Main Web Palette Setup */
 :root {
-    --msu-maroon: #7A1C1C;
-    --msu-maroon-dark: #5C1313;
-    --msu-gold: #FFD700;
-    --msu-gold-hover: #E6C200;
-    --bg-light: #FDFBFB;
+    --msu-maroon: #7A1C1C !important;
+    --msu-maroon-dark: #501010 !important;
+    --msu-maroon-light: #942828 !important;
+    --msu-gold: #FFD700 !important;
+    --msu-gold-hover: #E6B800 !important;
+    --app-canvas-bg: #F5F2F2 !important;
 }
 
 body {
-    background-color: var(--bg-light);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--app-canvas-bg) !important;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+    margin: 0;
+    padding: 0;
 }
 
-/* Elegant Utility Classes */
+/* Color Identity Hooks */
 .text-maroon { color: var(--msu-maroon) !important; }
 .bg-maroon { background-color: var(--msu-maroon) !important; }
+.bg-dark-maroon { background-color: var(--msu-maroon-dark) !important; }
 .brand-gold { color: var(--msu-gold) !important; }
-.text-light-muted { color: #E2C2C2; font-size: 0.9rem; }
+.brand-gold-text { color: var(--msu-gold) !important; font-weight: 500; }
 
-/* Dynamic Auth Window Popup styling */
+/* 🔐 WINDOW 1: LOGIN PORTAL SCREEN (STANDALONE FULLSCREEN VIEW) */
+#auth-screen {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, var(--msu-maroon-dark) 0%, var(--msu-maroon) 100%) !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 99999 !important; /* Forces it over everything */
+}
+
 .auth-card {
-    background-color: var(--msu-maroon) !important;
-    max-width: 450px;
-    border: none;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(122, 28, 28, 0.3) !important;
+    background-color: rgba(122, 28, 28, 0.95) !important;
+    border: 2px solid var(--msu-gold) !important;
+    border-radius: 16px !important;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4) !important;
 }
 
 .custom-input {
-    background-color: rgba(255, 255, 255, 0.15) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    color: white !important;
-}
-
-.custom-input::placeholder {
-    color: #CFAAAA !important;
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
 }
 
 .custom-input:focus {
-    box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25) !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
     border-color: var(--msu-gold) !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25) !important;
+    color: #ffffff !important;
 }
 
-/* Elegant Buttons Layout */
+.custom-input::placeholder {
+    color: #D6A4A4 !important;
+}
+
+/* Core System Button Styling overrides */
 .btn-gold {
     background-color: var(--msu-gold) !important;
-    color: var(--msu-maroon) !important;
-    border: none;
-    transition: all 0.2s ease-in-out;
+    color: var(--msu-maroon-dark) !important;
+    border: none !important;
+    transition: transform 0.1s ease, background-color 0.2s !important;
 }
 
 .btn-gold:hover {
     background-color: var(--msu-gold-hover) !important;
-    transform: scale(1.02);
+    transform: translateY(-1px) !important;
 }
 
 .btn-outline-gold {
     border: 1px solid var(--msu-gold) !important;
     color: var(--msu-gold) !important;
+    background: transparent !important;
 }
 
 .btn-outline-gold:hover {
     background-color: var(--msu-gold) !important;
-    color: var(--msu-maroon) !important;
+    color: var(--msu-maroon-dark) !important;
 }
 
 .btn-maroon {
     background-color: var(--msu-maroon) !important;
-    color: white !important;
+    color: #ffffff !important;
+    border: none !important;
 }
 
 .btn-maroon:hover {
     background-color: var(--msu-maroon-dark) !important;
-    color: white !important;
 }
 
-/* Standalone Master Dashboard Screen Container */
-.main-container {
-    display: none; /* Completely hidden when Auth window popup is showing */
+/* 🏠 WINDOW 2: SEPARATE DASHBOARD MASTER WORKSPACE PANEL */
+#main-system {
+    display: none; /* Completely dynamic, managed cleanly by app.js logic */
 }
 
 .main-header {
     background-color: var(--msu-maroon) !important;
-    border-radius: 12px !important;
+    border-bottom: 4px solid var(--msu-gold) !important;
 }
 
-/* Component Navigation Tab layout custom color */
+/* Dashboard Navigation Link Tabs UI */
+.nav-tabs {
+    border-bottom: 2px solid #E0DADA !important;
+}
+
 .nav-tabs .nav-link {
-    color: #666;
-    font-weight: 600;
-    border: none;
-    padding: 10px 20px;
+    color: #555555 !important;
+    border: none !important;
+    padding: 12px 24px !important;
+    transition: all 0.2s !important;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--msu-maroon-light) !important;
+    background-color: rgba(122, 28, 28, 0.05) !important;
 }
 
 .nav-tabs .nav-link.active {
-    background-color: transparent !important;
     color: var(--msu-maroon) !important;
-    border-bottom: 3px solid var(--msu-maroon) !important;
+    background: transparent !important;
+    border-bottom: 4px solid var(--msu-maroon) !important;
 }
 
+/* Modular Container Cards */
 .card {
-    border: none;
-    border-radius: 12px;
+    border: none !important;
+    border-radius: 12px !important;
 }
 
 .border-top-maroon {
-    border-top: 4px solid var(--msu-maroon) !important;
+    border-top: 5px solid var(--msu-maroon) !important;
 }
 
-.dashboard-card {
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(122, 28, 28, 0.1);
+.metric-card {
+    background: linear-gradient(135deg, var(--msu-maroon) 0%, var(--msu-maroon-light) 100%) !important;
+    border-left: 6px solid var(--msu-gold) !important;
 }
 
-.table-maroon-header th {
-    background-color: var(--msu-maroon) !important;
-    color: white !important;
-    font-weight: 600;
+/* Structured Modern Tables Layout */
+.table-dark-maroon th {
+    background-color: var(--msu-maroon-dark) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border: none !important;
+    padding: 12px !important;
 }
 
 .table-responsive {
-    max-height: 450px;
+    max-height: 480px;
     overflow-y: auto;
 }
 
 .btn-xs {
-    padding: 2px 8px;
-    font-size: 0.75rem;
-    border-radius: 4px;
+    padding: 3px 10px !important;
+    font-size: 0.78rem !important;
+    border-radius: 6px !important;
 }

@@ -10,195 +10,227 @@
 </head>
 <body>
 
-    <div id="auth-screen" class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="card auth-card shadow-lg w-100 p-4">
+    <div id="auth-screen">
+        <div class="card auth-card shadow-lg p-4">
             <div class="text-center mb-4">
                 <i class="bi bi-building-fill-lock brand-gold" style="font-size: 3.5rem;"></i>
                 <h3 class="mt-2 fw-bold text-white" id="auth-title">MSU-Main Dormitory</h3>
-                <p class="text-light-muted">Please log in to manage the dormitory system</p>
+                <p class="brand-gold-text small">Dormitory System Administrator Portal</p>
             </div>
             <form id="auth-form">
                 <div class="mb-3">
-                    <label class="form-label text-white"><i class="bi bi-envelope-fill me-1 brand-gold"></i> Email Address</label>
+                    <label class="form-label text-white fw-semibold"><i class="bi bi-envelope-fill me-1 brand-gold"></i> Email Address</label>
                     <input type="email" id="auth-email" class="form-control custom-input" placeholder="admin@msu.edu.ph" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label text-white"><i class="bi bi-lock-fill me-1 brand-gold"></i> Password</label>
+                    <label class="form-label text-white fw-semibold"><i class="bi bi-lock-fill me-1 brand-gold"></i> Password</label>
                     <input type="password" id="auth-password" class="form-control custom-input" placeholder="••••••••" required>
                 </div>
                 <div class="d-grid gap-2 mt-4">
-                    <button type="submit" id="auth-btn" class="btn btn-gold p-2 fw-bold">Login</button>
-                    <button type="button" id="toggle-auth" class="btn btn-link btn-sm text-decoration-none text-white-50">Don't have an account? Register here</button>
+                    <button type="submit" id="auth-btn" class="btn btn-gold p-2 fw-bold">Login to System</button>
+                    <button type="button" id="toggle-auth" class="btn btn-link btn-sm text-decoration-none text-white-50">Need an Admin Account? Register Here</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="main-system" class="container main-container my-4">
-        <div class="d-flex justify-content-between align-items-center main-header p-3 rounded shadow-sm mb-4">
-            <h4 class="m-0 fw-bold text-white"><i class="bi bi-houses-fill me-2 brand-gold"></i>MSU Dormitory Management Hub</h4>
+    <div id="main-system">
+        <div class="d-flex justify-content-between align-items-center main-header p-3 mb-4 shadow">
+            <h4 class="m-0 fw-bold text-white d-flex align-items-center">
+                <i class="bi bi-houses-fill me-2 brand-gold" style="font-size: 1.8rem;"></i>
+                <span>MSU DORMITORY MANAGEMENT HUB</span>
+            </h4>
             <div class="d-flex align-items-center">
-                <span class="me-3 text-white fw-medium d-none d-md-inline" id="user-display">Admin</span>
-                <button id="logout-btn" class="btn btn-outline-gold btn-sm"><i class="bi bi-box-arrow-right me-1"></i>Logout</button>
+                <span class="me-3 text-white fw-medium bg-dark-maroon px-3 py-1 rounded-pill border border-warning" id="user-display">Admin</span>
+                <button id="logout-btn" class="btn btn-outline-gold btn-sm fw-bold"><i class="bi bi-box-arrow-right me-1"></i>Logout</button>
             </div>
         </div>
 
-        <ul class="nav nav-tabs mb-3" id="dormTabs" role="tablist">
-            <li class="nav-item">
-                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button"><i class="bi bi-grid-1x2-fill me-1"></i> Overview</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" id="occupants-tab" data-bs-toggle="tab" data-bs-target="#occupants" type="button"><i class="bi bi-people-fill me-1"></i> Occupants Mgt.</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" id="rooms-tab" data-bs-toggle="tab" data-bs-target="#rooms" type="button"><i class="bi bi-door-open-fill me-1"></i> Rooms Mgt.</button>
-            </li>
-        </ul>
+        <div class="container-fluid px-4">
+            <ul class="nav nav-tabs mb-4" id="dormTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active fw-bold" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button"><i class="bi bi-grid-1x2-fill me-1"></i> Dashboard Overview</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold" id="occupants-tab" data-bs-toggle="tab" data-bs-target="#occupants" type="button"><i class="bi bi-people-fill me-1"></i> Occupants Directory</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold" id="rooms-tab" data-bs-toggle="tab" data-bs-target="#rooms" type="button"><i class="bi bi-door-open-fill me-1"></i> Rooms Registry</button>
+                </li>
+            </ul>
 
-        <div class="tab-content" id="dormTabsContent">
-            
-            <div class="tab-pane fade show active" id="overview">
-                <div class="row g-3 mb-4">
-                    <div class="col-md-6">
-                        <div class="card p-3 dashboard-card text-white bg-maroon">
-                            <h6 class="text-uppercase fw-bold text-white-50">Total Registered Rooms</h6>
-                            <h2 id="stat-total-rooms" class="fw-bold brand-gold">0</h2>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card p-3 dashboard-card text-white bg-maroon">
-                            <h6 class="text-uppercase fw-bold text-white-50">Total Active Occupants</h6>
-                            <h2 id="stat-total-occupants" class="fw-bold brand-gold">0</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="card p-4 shadow-sm bg-white">
-                    <h5 class="fw-bold text-maroon mb-3"><i class="bi bi-table me-2"></i>Dormitory Real-Time Status Directory</h5>
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-maroon-header">
-                                <tr>
-                                    <th>Dorm ID</th>
-                                    <th>Dorm Unit Info</th>
-                                    <th>Room No.</th>
-                                    <th>Occupants Checked-In</th>
-                                </tr>
-                            </thead>
-                            <tbody id="overview-table-body"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="occupants">
-                <div class="row g-3">
-                    <div class="col-lg-4">
-                        <div class="card p-3 shadow-sm bg-white border-top-maroon">
-                            <h6 class="fw-bold text-maroon mb-3" id="occ-form-title"><i class="bi bi-person-plus-fill me-1"></i> Add New Occupant</h6>
-                            <form id="occ-form">
-                                <input type="hidden" id="occ-id">
-                                <div class="mb-2"><input type="text" id="occ-lastname" class="form-control form-control-sm" placeholder="Last Name" required></div>
-                                <div class="mb-2"><input type="text" id="occ-firstname" class="form-control form-control-sm" placeholder="First Name" required></div>
-                                <div class="mb-2"><input type="text" id="occ-middlename" class="form-control form-control-sm" placeholder="Middle Name"></div>
-                                <div class="row g-2 mb-2">
-                                    <div class="col-6"><input type="number" id="occ-age" class="form-control form-control-sm" placeholder="Age" required></div>
-                                    <div class="col-6"><input type="date" id="occ-birthday" class="form-control form-control-sm" required></div>
-                                </div>
-                                <div class="row g-2 mb-2">
-                                    <div class="col-6">
-                                        <select id="occ-gender" class="form-select form-select-sm" required>
-                                            <option value="">Gender</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
+            <div class="tab-content" id="dormTabsContent">
+                
+                <div class="tab-pane fade show active" id="overview">
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <div class="card metric-card p-4 text-white shadow-sm">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-uppercase fw-bold text-white-50 m-0">Total Tracked Rooms</h6>
+                                        <h1 id="stat-total-rooms" class="display-4 fw-bold brand-gold mt-2">0</h1>
                                     </div>
-                                    <div class="col-6">
-                                        <select id="occ-status" class="form-select form-select-sm" required>
-                                            <option value="Active">Active</option>
-                                            <option value="Inactive">Inactive</option>
-                                        </select>
+                                    <i class="bi bi-door-closed display-3 text-white-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card metric-card p-4 text-white shadow-sm">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-uppercase fw-bold text-white-50 m-0">Active Registered Occupants</h6>
+                                        <h1 id="stat-total-occupants" class="display-4 fw-bold brand-gold mt-2">0</h1>
                                     </div>
+                                    <i class="bi bi-people display-3 text-white-50"></i>
                                 </div>
-                                <div class="row g-2 mb-2">
-                                    <div class="col-6"><input type="text" id="occ-dormid" class="form-control form-control-sm" placeholder="Dorm ID" required></div>
-                                    <div class="col-6"><input type="text" id="occ-roomnum" class="form-control form-control-sm" placeholder="Room Number" required></div>
-                                </div>
-                                <div class="mb-2"><input type="text" id="occ-contact" class="form-control form-control-sm" placeholder="Contact No." required></div>
-                                <div class="mb-3"><input type="text" id="occ-emergency" class="form-control form-control-sm" placeholder="Emergency Contact No."></div>
-                                <div class="d-grid"><button type="submit" id="occ-submit-btn" class="btn btn-maroon btn-sm fw-bold">Save Occupant</button></div>
-                            </form>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-8">
-                        <div class="card p-3 shadow-sm bg-white">
-                            <h6 class="fw-bold text-maroon mb-3"><i class="bi bi-list-ul me-1"></i> Occupant Master List</h6>
+                    
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-maroon p-3">
+                            <h5 class="m-0 fw-bold text-white"><i class="bi bi-table me-2 brand-gold"></i>Real-Time Dormitory Occupancy Matrix</h5>
+                        </div>
+                        <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-sm table-striped align-middle">
-                                    <thead class="table-maroon-header">
+                                <table class="table table-hover table-striped m-0 align-middle">
+                                    <thead class="table-dark-maroon">
                                         <tr>
-                                            <th>Full Name</th>
-                                            <th>Dorm / Room</th>
-                                            <th>Age / Gender</th>
-                                            <th>Contact No.</th>
-                                            <th>Actions</th>
+                                            <th>Dorm Unit ID</th>
+                                            <th>Property Information</th>
+                                            <th>Room Number</th>
+                                            <th>Current Checked-In Occupants</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="occ-table-body"></tbody>
+                                    <tbody id="overview-table-body"></tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="tab-pane fade" id="rooms">
-                <div class="row g-3">
-                    <div class="col-lg-4">
-                        <div class="card p-3 shadow-sm bg-white border-top-maroon">
-                            <h6 class="fw-bold text-maroon mb-3" id="room-form-title"><i class="bi bi-door-open-fill me-1"></i> Add New Room</h6>
-                            <form id="room-form">
-                                <input type="hidden" id="room-id">
-                                <div class="mb-2"><input type="text" id="room-number-input" class="form-control form-control-sm" placeholder="Room Number" required></div>
-                                <div class="mb-2"><input type="text" id="room-dorm-id" class="form-control form-control-sm" placeholder="Dorm ID" required></div>
-                                <div class="row g-2 mb-2">
-                                    <div class="col-6"><input type="number" id="room-capacity" class="form-control form-control-sm" placeholder="Capacity" required></div>
-                                    <div class="col-6"><input type="number" id="room-floor" class="form-control form-control-sm" placeholder="Floor No." required></div>
+                <div class="tab-pane fade" id="occupants">
+                    <div class="row g-4">
+                        <div class="col-lg-4">
+                            <div class="card shadow-sm border-top-maroon">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-maroon mb-3" id="occ-form-title"><i class="bi bi-person-plus-fill me-1"></i> Register New Occupant</h5>
+                                    <form id="occ-form">
+                                        <input type="hidden" id="occ-id">
+                                        <div class="mb-2"><input type="text" id="occ-lastname" class="form-control form-control-sm" placeholder="Last Name" required></div>
+                                        <div class="mb-2"><input type="text" id="occ-firstname" class="form-control form-control-sm" placeholder="First Name" required></div>
+                                        <div class="mb-2"><input type="text" id="occ-middlename" class="form-control form-control-sm" placeholder="Middle Name"></div>
+                                        <div class="row g-2 mb-2">
+                                            <div class="col-6"><input type="number" id="occ-age" class="form-control form-control-sm" placeholder="Age" required></div>
+                                            <div class="col-6"><input type="date" id="occ-birthday" class="form-control form-control-sm" required></div>
+                                        </div>
+                                        <div class="row g-2 mb-2">
+                                            <div class="col-6">
+                                                <select id="occ-gender" class="form-select form-select-sm" required>
+                                                    <option value="">Gender</option>
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-6">
+                                                <select id="occ-status" class="form-select form-select-sm" required>
+                                                    <option value="Active">Active</option>
+                                                    <option value="Inactive">Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row g-2 mb-2">
+                                            <div class="col-6"><input type="text" id="occ-dormid" class="form-control form-control-sm" placeholder="Dorm ID" required></div>
+                                            <div class="col-6"><input type="text" id="occ-roomnum" class="form-control form-control-sm" placeholder="Room No." required></div>
+                                        </div>
+                                        <div class="mb-2"><input type="text" id="occ-contact" class="form-control form-control-sm" placeholder="Contact Number" required></div>
+                                        <div class="mb-3"><input type="text" id="occ-emergency" class="form-control form-control-sm" placeholder="Emergency Contact Number"></div>
+                                        <div class="d-grid"><button type="submit" id="occ-submit-btn" class="btn btn-maroon btn-sm fw-bold shadow-sm">Save Occupant Record</button></div>
+                                    </form>
                                 </div>
-                                <div class="mb-2"><input type="text" id="room-cr" class="form-control form-control-sm" placeholder="CR Type (e.g., Shared/Private)"></div>
-                                <div class="row g-2 mb-2">
-                                    <div class="col-6"><input type="number" id="room-lamps" class="form-control form-control-sm" placeholder="Lamps Count"></div>
-                                    <div class="col-6"><input type="number" id="room-windows" class="form-control form-control-sm" placeholder="Windows Count"></div>
-                                </div>
-                                <div class="row g-2 mb-3">
-                                    <div class="col-6"><input type="text" id="room-size" class="form-control form-control-sm" placeholder="Size (sqm)"></div>
-                                    <div class="col-6"><input type="number" id="room-rent" class="form-control form-control-sm" placeholder="Rent Price" required></div>
-                                </div>
-                                <div class="d-grid"><button type="submit" id="room-submit-btn" class="btn btn-maroon btn-sm fw-bold">Save Room</button></div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="card p-3 shadow-sm bg-white">
-                            <h6 class="fw-bold text-maroon mb-3"><i class="bi bi-list-stars me-1"></i> Room Directory Registry</h6>
-                            <div class="table-responsive">
-                                <table class="table table-sm table-striped align-middle">
-                                    <thead class="table-maroon-header">
-                                        <tr>
-                                            <th>Room No.</th>
-                                            <th>Dorm ID</th>
-                                            <th>Max Capacity</th>
-                                            <th>Monthly Rent</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="rooms-table-body"></tbody>
-                                </table>
+                        <div class="col-lg-8">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-maroon p-3">
+                                    <h6 class="m-0 fw-bold text-white"><i class="bi bi-person-lines-fill me-2 brand-gold"></i>Occupant Master Directory</h6>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover m-0 align-middle">
+                                            <thead class="table-dark-maroon">
+                                                <tr>
+                                                    <th>Occupant Name</th>
+                                                    <th>Location Allocation</th>
+                                                    <th>Profile Metrics</th>
+                                                    <th>Contact Handle</th>
+                                                    <th>Management Operations</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="occ-table-body"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
+                <div class="tab-pane fade" id="rooms">
+                    <div class="row g-4">
+                        <div class="col-lg-4">
+                            <div class="card shadow-sm border-top-maroon">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-maroon mb-3" id="room-form-title"><i class="bi bi-door-open-fill me-1"></i> Provision New Room</h5>
+                                    <form id="room-form">
+                                        <input type="hidden" id="room-id">
+                                        <div class="mb-2"><input type="text" id="room-number-input" class="form-control form-control-sm" placeholder="Room Number" required></div>
+                                        <div class="mb-2"><input type="text" id="room-dorm-id" class="form-control form-control-sm" placeholder="Dorm ID" required></div>
+                                        <div class="row g-2 mb-2">
+                                            <div class="col-6"><input type="number" id="room-capacity" class="form-control form-control-sm" placeholder="Capacity Slots" required></div>
+                                            <div class="col-6"><input type="number" id="room-floor" class="form-control form-control-sm" placeholder="Floor Level" required></div>
+                                        </div>
+                                        <div class="mb-2"><input type="text" id="room-cr" class="form-control form-control-sm" placeholder="CR System Architecture (e.g., Shared/Private)"></div>
+                                        <div class="row g-2 mb-2">
+                                            <div class="col-6"><input type="number" id="room-lamps" class="form-control form-control-sm" placeholder="Lamps Loaded"></div>
+                                            <div class="col-6"><input type="number" id="room-windows" class="form-control form-control-sm" placeholder="Windows Built"></div>
+                                        </div>
+                                        <div class="row g-2 mb-3">
+                                            <div class="col-6"><input type="text" id="room-size" class="form-control form-control-sm" placeholder="Floor Size (sqm)"></div>
+                                            <div class="col-6"><input type="number" id="room-rent" class="form-control form-control-sm" placeholder="Monthly Fee (PHP)" required></div>
+                                        </div>
+                                        <div class="d-grid"><button type="submit" id="room-submit-btn" class="btn btn-maroon btn-sm fw-bold shadow-sm">Save Room Unit</button></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-maroon p-3">
+                                    <h6 class="m-0 fw-bold text-white"><i class="bi bi-building-check me-2 brand-gold"></i>Room Assets Registry Matrix</h6>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover m-0 align-middle">
+                                            <thead class="table-dark-maroon">
+                                                <tr>
+                                                    <th>Room Code</th>
+                                                    <th>Dorm Link</th>
+                                                    <th>Capacity Limits</th>
+                                                    <th>Rental Rate</th>
+                                                    <th>Management Operations</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="rooms-table-body"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 

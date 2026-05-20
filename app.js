@@ -5,16 +5,16 @@ window.addEventListener('DOMContentLoaded', () => {
     const { collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot } = window.dbTools;
     const { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } = window.authTools;
 
-    // Direct Collection Pointers
+    // Database Collection References
     const occupantsCollection = collection(db, "occupants");
     const roomsCollection = collection(db, "rooms");
 
-    // Window View Containers
+    // Dynamic Separate Application Windows Handles
     const authScreen = document.getElementById('auth-screen');
     const mainSystem = document.getElementById('main-system');
     const userDisplay = document.getElementById('user-display');
 
-    // Account Session Controller Node Handles
+    // Access Session Forms Node Elements
     const authForm = document.getElementById('auth-form');
     const authEmail = document.getElementById('auth-email');
     const authPassword = document.getElementById('auth-password');
@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const toggleAuthBtn = document.getElementById('toggle-auth');
     const logoutBtn = document.getElementById('logout-btn');
 
-    // Tenant Field Inputs Elements
+    // Occupants Input Control Selectors
     const occForm = document.getElementById('occ-form');
     const occId = document.getElementById('occ-id');
     const occLastname = document.getElementById('occ-lastname');
@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const occFormTitle = document.getElementById('occ-form-title');
     const occTableBody = document.getElementById('occ-table-body');
 
-    // Unit Properties Forms Inputs Elements
+    // Rooms Input Control Selectors
     const roomForm = document.getElementById('room-form');
     const roomId = document.getElementById('room-id');
     const roomNumberInput = document.getElementById('room-number-input');
@@ -57,7 +57,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const roomFormTitle = document.getElementById('room-form-title');
     const roomsTableBody = document.getElementById('rooms-table-body');
 
-    // Metric Summary Targets Elements
+    // Metric Summary Counters UI Nodes
     const statTotalRooms = document.getElementById('stat-total-rooms');
     const statTotalOccupants = document.getElementById('stat-total-occupants');
     const overviewTableBody = document.getElementById('overview-table-body');
@@ -72,16 +72,16 @@ window.addEventListener('DOMContentLoaded', () => {
     let unsubRooms = null;
 
     // ==========================================
-    // 🔐 AUTH WINDOW UI TOGGLE & SYSTEM SESSION CONTROLLERS
+    // 🔐 AUTH WINDOW GATEKEEPER & WORKSPACE SWAPPER
     // ==========================================
     toggleAuthBtn.onclick = function() {
         isLoginMode = !isLoginMode;
         if (isLoginMode) {
             authTitle.textContent = "MSU-Main Dormitory";
-            authBtn.textContent = "Login";
-            toggleAuthBtn.textContent = "Don't have an account? Register here";
+            authBtn.textContent = "Login to System";
+            toggleAuthBtn.textContent = "Need an Admin Account? Register Here";
         } else {
-            authTitle.textContent = "Create Admin Registration";
+            authTitle.textContent = "Create Administration Account";
             authBtn.textContent = "Register Account";
             toggleAuthBtn.textContent = "Already registered? Login here";
         }
@@ -93,47 +93,47 @@ window.addEventListener('DOMContentLoaded', () => {
         const password = authPassword.value;
 
         if (password.length < 6) {
-            alert("Password parameters must be at least 6 characters long.");
+            alert("Security Error: Password parameter length must be at least 6 characters.");
             return;
         }
 
         try {
             if (isLoginMode) {
                 await signInWithEmailAndPassword(auth, email, password);
-                alert("Welcome back Admin!");
             } else {
                 await createUserWithEmailAndPassword(auth, email, password);
-                alert("Admin registration account created successfully!");
+                alert("Success: Administrator account registered.");
             }
             authForm.reset();
         } catch (error) {
-            alert("Security Error: " + error.message);
+            alert("Authentication Gatekeeper Error: " + error.message);
         }
     });
 
     logoutBtn.addEventListener('click', async () => {
-        if (confirm("Are you sure you want to sign out from the system window?")) {
+        if (confirm("System Alert: Are you sure you want to completely log out of the active session window?")) {
             await signOut(auth);
         }
     });
 
+    // 💥 THIS ENGINE MANAGES THE INDEPENDENT WINDOW BEHAVIOR
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            // Hides authentication card and pops up main system dashboard as separate step
+            // SUCCESS: Destroy/Hide Login window completely, display Dashboard
             authScreen.style.setProperty('display', 'none', 'important');
-            mainSystem.style.display = 'block';
-            userDisplay.textContent = `Admin User: ${user.email}`;
+            mainSystem.style.setProperty('display', 'block', 'important');
+            userDisplay.textContent = `Admin: ${user.email}`;
             startDataSync();
         } else {
-            // Displays authentication card layout view standalone
+            // NO ACTIVE SESSION: Force clear Dashboard visibility, render Login Window Standalone
             authScreen.style.setProperty('display', 'flex', 'important');
-            mainSystem.style.display = 'none';
+            mainSystem.style.setProperty('display', 'none', 'important');
             stopDataSync();
         }
     });
 
     // ==========================================
-    // 📊 REALTIME LISTENER SYNCHRONIZATION
+    // 📊 NO-SQL CLOUD DATABASE LISTENERS (REALTIME SYNC)
     // ==========================================
     function startDataSync() {
         unsubRooms = onSnapshot(roomsCollection, (snapshot) => {
@@ -144,13 +144,13 @@ window.addEventListener('DOMContentLoaded', () => {
                 localRooms.push({ id: doc.id, ...r });
                 roomsTableBody.innerHTML += `
                     <tr>
-                        <td><strong>Room ${r.roomNum}</strong></td>
-                        <td>${r.dormId}</td>
-                        <td>${r.capacity} Occupants Max</td>
-                        <td>₱${r.rent}</td>
+                        <td><strong>Room No. ${r.roomNum}</strong></td>
+                        <td><span class="badge bg-maroon">${r.dormId}</span></td>
+                        <td>${r.capacity} Limit Slots</td>
+                        <td class="fw-bold text-success">PHP ${r.rent}</td>
                         <td>
-                            <button class="btn btn-warning btn-xs fw-bold text-dark" onclick="editRoomTrigger('${doc.id}', '${r.roomNum}', '${r.dormId}', ${r.capacity}, ${r.floor}, '${r.cr}', ${r.lamps}, ${r.windows}, '${r.size}', ${r.rent})">Edit</button>
-                            <button class="btn btn-danger btn-xs fw-bold" onclick="deleteRoom('${doc.id}')">Delete</button>
+                            <button class="btn btn-warning btn-xs fw-bold text-dark me-1" onclick="editRoomTrigger('${doc.id}', '${r.roomNum}', '${r.dormId}', ${r.capacity}, ${r.floor}, '${r.cr}', ${r.lamps}, ${r.windows}, '${r.size}', ${r.rent})"><i class="bi bi-pencil-fill"></i> Edit</button>
+                            <button class="btn btn-danger btn-xs fw-bold" onclick="deleteRoom('${doc.id}')"><i class="bi bi-trash-fill"></i> Delete</button>
                         </td>
                     </tr>`;
             });
@@ -166,12 +166,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 occTableBody.innerHTML += `
                     <tr>
                         <td><strong>${o.lastname}</strong>, ${o.firstname}</td>
-                        <td>Unit: ${o.dormId} / Room: ${o.roomNum}</td>
-                        <td>${o.age} yrs old / ${o.gender}</td>
-                        <td>${o.contact}</td>
+                        <td>Unit ID: ${o.dormId} / Room: ${o.roomNum}</td>
+                        <td>${o.age} yrs / ${o.gender}</td>
+                        <td><i class="bi bi-telephone-fill me-1 text-secondary"></i> ${o.contact}</td>
                         <td>
-                            <button class="btn btn-warning btn-xs fw-bold text-dark" onclick="editOccTrigger('${doc.id}', '${o.lastname}', '${o.firstname}', '${o.middlename}', ${o.age}, '${o.birthday}', '${o.gender}', '${o.status}', '${o.dormId}', '${o.roomNum}', '${o.contact}', '${o.emergency}')">Edit</button>
-                            <button class="btn btn-danger btn-xs fw-bold" onclick="deleteOcc('${doc.id}')">Delete</button>
+                            <button class="btn btn-warning btn-xs fw-bold text-dark me-1" onclick="editOccTrigger('${doc.id}', '${o.lastname}', '${o.firstname}', '${o.middlename}', ${o.age}, '${o.birthday}', '${o.gender}', '${o.status}', '${o.dormId}', '${o.roomNum}', '${o.contact}', '${o.emergency}')"><i class="bi bi-pencil-fill"></i> Edit</button>
+                            <button class="btn btn-danger btn-xs fw-bold" onclick="deleteOcc('${doc.id}')"><i class="bi bi-trash-fill"></i> Delete</button>
                         </td>
                     </tr>`;
             });
@@ -193,20 +193,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
         localRooms.forEach(room => {
             const activeMatches = localOccupants.filter(o => o.roomNum === room.roomNum && o.dormId === room.dormId);
-            const occupantNames = activeMatches.map(o => `${o.firstname} ${o.lastname}`).join(', ') || "No Occupants Checked-In";
+            const occupantNames = activeMatches.map(o => `${o.firstname} ${o.lastname}`).join(', ') || "No Occupants Assigned Currently";
             
             overviewTableBody.innerHTML += `
                 <tr>
                     <td><span class="badge bg-maroon">${room.dormId}</span></td>
-                    <td>Dorm Unit Complex - Floor Level ${room.floor}</td>
-                    <td><strong>Room ${room.roomNum}</strong></td>
-                    <td><small class="text-secondary fw-semibold">${occupantNames} (${activeMatches.length}/${room.capacity} slots filled)</small></td>
+                    <td>Complex Floor Allocation: ${room.floor}</td>
+                    <td><strong>Room Suite ${room.roomNum}</strong></td>
+                    <td><span class="text-dark fw-semibold small"><i class="bi bi-person-check-fill text-success me-1"></i> ${occupantNames} (${activeMatches.length}/${room.capacity} slots checked-in)</span></td>
                 </tr>`;
         });
     }
 
     // ==========================================
-    // 🧑‍🤝‍🧑 OCCUPANTS DIRECTORY WORKFLOW CONTROLLERS (CRUD)
+    // 🧑‍🤝‍🧑 OCCUPANTS DATA CONTROLLERS (CRUD)
     // ==========================================
     occForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -229,9 +229,9 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             await updateDoc(doc(db, "occupants", occId.value), payload);
             occEditMode = false;
-            occSubmitBtn.textContent = "Save Occupant";
-            occSubmitBtn.className = "btn btn-maroon btn-sm fw-bold";
-            occFormTitle.innerHTML = `<i class="bi bi-person-plus-fill me-1"></i> Add New Occupant`;
+            occSubmitBtn.textContent = "Save Occupant Record";
+            occSubmitBtn.className = "btn btn-maroon btn-sm fw-bold shadow-sm";
+            occFormTitle.innerHTML = `<i class="bi bi-person-plus-fill me-1"></i> Register New Occupant`;
         }
         occForm.reset();
         occId.value = "";
@@ -252,21 +252,21 @@ window.addEventListener('DOMContentLoaded', () => {
         occEmergency.value = emer;
 
         occEditMode = true;
-        occSubmitBtn.textContent = "Update Occupant Parameters";
-        occSubmitBtn.className = "btn btn-warning btn-sm fw-bold text-dark";
-        occFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Modifying Occupant Info`;
+        occSubmitBtn.textContent = "Apply Entry Adjustments";
+        occSubmitBtn.className = "btn btn-gold btn-sm fw-bold";
+        occFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Adjusting Selected Occupant Metrics`;
         
         document.getElementById('occupants-tab').click();
     };
 
     window.deleteOcc = async (id) => {
-        if (confirm("Are you sure you want to remove this occupant record permanently?")) {
+        if (confirm("Warning: Are you absolutely sure you want to remove this tenant from the records database permanently?")) {
             await deleteDoc(doc(db, "occupants", id));
         }
     };
 
     // ==========================================
-    // 🚪 ROOMS DIRECTORY WORKFLOW CONTROLLERS (CRUD)
+    // 🚪 ROOMS DATA CONTROLLERS (CRUD)
     // ==========================================
     roomForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -287,9 +287,9 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             await updateDoc(doc(db, "rooms", roomId.value), payload);
             roomEditMode = false;
-            roomSubmitBtn.textContent = "Save Room";
-            roomSubmitBtn.className = "btn btn-maroon btn-sm fw-bold";
-            roomFormTitle.innerHTML = `<i class="bi bi-door-open-fill me-1"></i> Add New Room`;
+            roomSubmitBtn.textContent = "Save Room Unit";
+            roomSubmitBtn.className = "btn btn-maroon btn-sm fw-bold shadow-sm";
+            roomFormTitle.innerHTML = `<i class="bi bi-door-open-fill me-1"></i> Provision New Room`;
         }
         roomForm.reset();
         roomId.value = "";
@@ -308,15 +308,15 @@ window.addEventListener('DOMContentLoaded', () => {
         roomRent.value = rnt;
 
         roomEditMode = true;
-        roomSubmitBtn.textContent = "Update Room Parameters";
-        roomSubmitBtn.className = "btn btn-warning btn-sm fw-bold text-dark";
-        roomFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Modifying Room Info`;
+        roomSubmitBtn.textContent = "Apply Asset Adjustments";
+        roomSubmitBtn.className = "btn btn-gold btn-sm fw-bold";
+        roomFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Adjusting Selected Room Parameters`;
 
         document.getElementById('rooms-tab').click();
     };
 
     window.deleteRoom = async (id) => {
-        if (confirm("Are you sure you want to clear this room registry?")) {
+        if (confirm("Warning: Are you sure you want to destroy this room asset configuration record?")) {
             await deleteDoc(doc(db, "rooms", id));
         }
     };
