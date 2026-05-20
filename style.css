@@ -1,152 +1,166 @@
-/* Official MSU Main Web Palette Setup */
+/* Official Lightened MSU Campus Aesthetics Palette Configuration */
 :root {
-    --msu-maroon: #7A1C1C !important;
-    --msu-maroon-dark: #501010 !important;
-    --msu-maroon-light: #942828 !important;
-    --msu-gold: #FFD700 !important;
-    --msu-gold-hover: #E6B800 !important;
-    --app-canvas-bg: #F5F2F2 !important;
+    --light-maroon: #A63F3F !important;         /* Light cute Maroon */
+    --light-maroon-hover: #BF5A5A !important;   /* Extra smooth hover state maroon */
+    --light-maroon-dark: #7A2626 !important;    /* Rich core tone */
+    --pastel-yellow: #FFF2B2 !important;        /* Warm light yellow/cream */
+    --pastel-gold-text: #E5C100 !important;     /* Bright soft gold font accent */
 }
 
 body {
-    background-color: var(--app-canvas-bg) !important;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
     margin: 0;
     padding: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* Color Identity Hooks */
-.text-maroon { color: var(--msu-maroon) !important; }
-.bg-maroon { background-color: var(--msu-maroon) !important; }
-.bg-dark-maroon { background-color: var(--msu-maroon-dark) !important; }
-.brand-gold { color: var(--msu-gold) !important; }
-.brand-gold-text { color: var(--msu-gold) !important; font-weight: 500; }
+/* 🌌 SEMI-TRANSPARENT CAMPUS PHOTO ATTACHMENT BACKGROUND */
+.campus-bg-overlay {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('unnamed.webp') !important; /* Loaded MSU campus view file */
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    opacity: 0.18 !important; /* Elegant semi-transparent overlay value */
+    z-index: -1 !important; /* Placed cleanly underneath layout workflow */
+}
 
-/* 🔐 WINDOW 1: LOGIN PORTAL SCREEN (STANDALONE FULLSCREEN VIEW) */
+/* Color Identity Helper Classes */
+.text-maroon { color: var(--light-maroon) !important; }
+.bg-maroon { background-color: var(--light-maroon) !important; }
+.text-gold { color: var(--pastel-yellow) !important; }
+
+/* 🔐 WINDOW 1: LOGIN PORTAL STRUCTURE CONTAINER */
 #auth-screen {
     position: fixed !important;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(135deg, var(--msu-maroon-dark) 0%, var(--msu-maroon) 100%) !important;
+    background: radial-gradient(circle, rgba(255,255,255,0.92) 0%, rgba(245,240,240,0.96) 100%) !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    z-index: 99999 !important; /* Forces it over everything */
+    z-index: 99999 !important; /* Locks screen over dashboard entirely */
 }
 
 .auth-card {
-    background-color: rgba(122, 28, 28, 0.95) !important;
-    border: 2px solid var(--msu-gold) !important;
-    border-radius: 16px !important;
+    background-color: #ffffff !important;
+    border: 3px solid var(--light-maroon) !important;
+    border-radius: 20px !important;
     width: 100%;
-    max-width: 440px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4) !important;
+    max-width: 430px;
+    box-shadow: 0 15px 40px rgba(166, 63, 63, 0.15) !important;
+}
+
+.auth-logo {
+    width: 95px;
+    height: 95px;
+    object-fit: contain;
 }
 
 .custom-input {
-    background-color: rgba(255, 255, 255, 0.12) !important;
-    border: 1px solid rgba(255, 255, 255, 0.25) !important;
-    color: #ffffff !important;
+    background-color: #FAFAFA !important;
+    border: 1px solid #D6C2C2 !important;
+    color: #333333 !important;
 }
 
 .custom-input:focus {
-    background-color: rgba(255, 255, 255, 0.2) !important;
-    border-color: var(--msu-gold) !important;
-    box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25) !important;
-    color: #ffffff !important;
+    background-color: #ffffff !important;
+    border-color: var(--light-maroon) !important;
+    box-shadow: 0 0 0 0.25rem rgba(166, 63, 63, 0.18) !important;
 }
 
-.custom-input::placeholder {
-    color: #D6A4A4 !important;
-}
-
-/* Core System Button Styling overrides */
-.btn-gold {
-    background-color: var(--msu-gold) !important;
-    color: var(--msu-maroon-dark) !important;
-    border: none !important;
-    transition: transform 0.1s ease, background-color 0.2s !important;
-}
-
-.btn-gold:hover {
-    background-color: var(--msu-gold-hover) !important;
-    transform: translateY(-1px) !important;
-}
-
-.btn-outline-gold {
-    border: 1px solid var(--msu-gold) !important;
-    color: var(--msu-gold) !important;
-    background: transparent !important;
-}
-
-.btn-outline-gold:hover {
-    background-color: var(--msu-gold) !important;
-    color: var(--msu-maroon-dark) !important;
-}
-
+/* UI Interactive Buttons Engine Layout styles */
 .btn-maroon {
-    background-color: var(--msu-maroon) !important;
+    background-color: var(--light-maroon) !important;
     color: #ffffff !important;
     border: none !important;
+    transition: background-color 0.2s, transform 0.1s !important;
 }
 
 .btn-maroon:hover {
-    background-color: var(--msu-maroon-dark) !important;
+    background-color: var(--light-maroon-hover) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
 }
 
-/* 🏠 WINDOW 2: SEPARATE DASHBOARD MASTER WORKSPACE PANEL */
+.btn-maroon:active {
+    transform: translateY(1px) !important;
+}
+
+/* 🏠 WINDOW 2: MASTER INDEPENDENT HUB WORKSPACE WRAPPER */
 #main-system {
-    display: none; /* Completely dynamic, managed cleanly by app.js logic */
+    display: none; /* Safely and programmatically controlled inside app.js layout runtime */
+    position: relative;
+    z-index: 10;
+}
+
+.header-logo {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
 }
 
 .main-header {
-    background-color: var(--msu-maroon) !important;
-    border-bottom: 4px solid var(--msu-gold) !important;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 4px solid var(--light-maroon) !important;
+    backdrop-filter: blur(5px);
 }
 
-/* Dashboard Navigation Link Tabs UI */
+/* Modular Navigation Selection Panel Link Tabs */
 .nav-tabs {
-    border-bottom: 2px solid #E0DADA !important;
+    border-bottom: 2px solid var(--light-maroon) !important;
 }
 
 .nav-tabs .nav-link {
-    color: #555555 !important;
+    color: #666666 !important;
     border: none !important;
     padding: 12px 24px !important;
     transition: all 0.2s !important;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .nav-tabs .nav-link:hover {
-    color: var(--msu-maroon-light) !important;
-    background-color: rgba(122, 28, 28, 0.05) !important;
+    color: var(--light-maroon) !important;
+    background-color: var(--pastel-yellow) !important;
 }
 
 .nav-tabs .nav-link.active {
-    color: var(--msu-maroon) !important;
-    background: transparent !important;
-    border-bottom: 4px solid var(--msu-maroon) !important;
+    color: #ffffff !important;
+    background-color: var(--light-maroon) !important;
+    border: none !important;
 }
 
-/* Modular Container Cards */
-.card {
-    border: none !important;
-    border-radius: 12px !important;
+/* Dashboard Metric Element Content Cards Blueprint */
+.content-card {
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(166, 63, 63, 0.15) !important;
 }
 
 .border-top-maroon {
-    border-top: 5px solid var(--msu-maroon) !important;
+    border-top: 5px solid var(--light-maroon) !important;
 }
 
 .metric-card {
-    background: linear-gradient(135deg, var(--msu-maroon) 0%, var(--msu-maroon-light) 100%) !important;
-    border-left: 6px solid var(--msu-gold) !important;
+    background-color: var(--pastel-yellow) !important;
+    border-left: 6px solid var(--light-maroon) !important;
+    border-radius: 14px !important;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
 }
 
-/* Structured Modern Tables Layout */
-.table-dark-maroon th {
-    background-color: var(--msu-maroon-dark) !important;
+/* Grid Matrix Tables layout configurations */
+.table-light-maroon-header th {
+    background-color: var(--light-maroon-dark) !important;
     color: #ffffff !important;
     font-weight: 600 !important;
     border: none !important;
@@ -154,12 +168,12 @@ body {
 }
 
 .table-responsive {
-    max-height: 480px;
+    max-height: 490px;
     overflow-y: auto;
 }
 
 .btn-xs {
-    padding: 3px 10px !important;
+    padding: 3px 12px !important;
     font-size: 0.78rem !important;
     border-radius: 6px !important;
 }

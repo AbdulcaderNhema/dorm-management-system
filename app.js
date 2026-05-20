@@ -1,20 +1,20 @@
 window.addEventListener('DOMContentLoaded', () => {
-    // Unpack Shared Firebase Core Engine Hooks
+    // Extract Firebase Global Instance Modules
     const db = window.db;
     const auth = window.auth;
     const { collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot } = window.dbTools;
     const { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } = window.authTools;
 
-    // Database Collection References
+    // Database Cloud Pointer Nodes
     const occupantsCollection = collection(db, "occupants");
     const roomsCollection = collection(db, "rooms");
 
-    // Dynamic Separate Application Windows Handles
+    // Independent Window Display Targets
     const authScreen = document.getElementById('auth-screen');
     const mainSystem = document.getElementById('main-system');
     const userDisplay = document.getElementById('user-display');
 
-    // Access Session Forms Node Elements
+    // Access Authentication Input Nodes
     const authForm = document.getElementById('auth-form');
     const authEmail = document.getElementById('auth-email');
     const authPassword = document.getElementById('auth-password');
@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const toggleAuthBtn = document.getElementById('toggle-auth');
     const logoutBtn = document.getElementById('logout-btn');
 
-    // Occupants Input Control Selectors
+    // Tenant Profile Input Elements
     const occForm = document.getElementById('occ-form');
     const occId = document.getElementById('occ-id');
     const occLastname = document.getElementById('occ-lastname');
@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const occFormTitle = document.getElementById('occ-form-title');
     const occTableBody = document.getElementById('occ-table-body');
 
-    // Rooms Input Control Selectors
+    // Room Property Input Elements
     const roomForm = document.getElementById('room-form');
     const roomId = document.getElementById('room-id');
     const roomNumberInput = document.getElementById('room-number-input');
@@ -57,7 +57,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const roomFormTitle = document.getElementById('room-form-title');
     const roomsTableBody = document.getElementById('rooms-table-body');
 
-    // Metric Summary Counters UI Nodes
+    // Total Aggregates Tracking Targets
     const statTotalRooms = document.getElementById('stat-total-rooms');
     const statTotalOccupants = document.getElementById('stat-total-occupants');
     const overviewTableBody = document.getElementById('overview-table-body');
@@ -72,7 +72,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let unsubRooms = null;
 
     // ==========================================
-    // 🔐 AUTH WINDOW GATEKEEPER & WORKSPACE SWAPPER
+    // 🔐 DYNAMIC ACCESS SESSION CONTROLLER INTERFACES
     // ==========================================
     toggleAuthBtn.onclick = function() {
         isLoginMode = !isLoginMode;
@@ -81,8 +81,8 @@ window.addEventListener('DOMContentLoaded', () => {
             authBtn.textContent = "Login to System";
             toggleAuthBtn.textContent = "Need an Admin Account? Register Here";
         } else {
-            authTitle.textContent = "Create Administration Account";
-            authBtn.textContent = "Register Account";
+            authTitle.textContent = "Register Administrator";
+            authBtn.textContent = "Create Account";
             toggleAuthBtn.textContent = "Already registered? Login here";
         }
     };
@@ -93,7 +93,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const password = authPassword.value;
 
         if (password.length < 6) {
-            alert("Security Error: Password parameter length must be at least 6 characters.");
+            alert("Security Notice: Password length validation must match at least 6 characters.");
             return;
         }
 
@@ -102,30 +102,30 @@ window.addEventListener('DOMContentLoaded', () => {
                 await signInWithEmailAndPassword(auth, email, password);
             } else {
                 await createUserWithEmailAndPassword(auth, email, password);
-                alert("Success: Administrator account registered.");
+                alert("Success: Administrator login account provisioned.");
             }
             authForm.reset();
         } catch (error) {
-            alert("Authentication Gatekeeper Error: " + error.message);
+            alert("Access Authentication Error: " + error.message);
         }
     });
 
     logoutBtn.addEventListener('click', async () => {
-        if (confirm("System Alert: Are you sure you want to completely log out of the active session window?")) {
+        if (confirm("System Control Notification: Are you sure you want to sign out from the active session?")) {
             await signOut(auth);
         }
     });
 
-    // 💥 THIS ENGINE MANAGES THE INDEPENDENT WINDOW BEHAVIOR
+    // 💥 HANDLES INDEPENDENT SEPARATE POPUP DISPLAY LAYOUT LOGIC
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            // SUCCESS: Destroy/Hide Login window completely, display Dashboard
+            // Hides authentication card container cleanly and triggers dashboard workspace visibility
             authScreen.style.setProperty('display', 'none', 'important');
             mainSystem.style.setProperty('display', 'block', 'important');
             userDisplay.textContent = `Admin: ${user.email}`;
             startDataSync();
         } else {
-            // NO ACTIVE SESSION: Force clear Dashboard visibility, render Login Window Standalone
+            // Destroys dashboard workspace visibility structure and loads login card frame standalone
             authScreen.style.setProperty('display', 'flex', 'important');
             mainSystem.style.setProperty('display', 'none', 'important');
             stopDataSync();
@@ -133,7 +133,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // 📊 NO-SQL CLOUD DATABASE LISTENERS (REALTIME SYNC)
+    // 📊 CLOUD DATABASE SYNCHRONIZATION ENGINES
     // ==========================================
     function startDataSync() {
         unsubRooms = onSnapshot(roomsCollection, (snapshot) => {
@@ -146,11 +146,11 @@ window.addEventListener('DOMContentLoaded', () => {
                     <tr>
                         <td><strong>Room No. ${r.roomNum}</strong></td>
                         <td><span class="badge bg-maroon">${r.dormId}</span></td>
-                        <td>${r.capacity} Limit Slots</td>
+                        <td>${r.capacity} Slots Cap</td>
                         <td class="fw-bold text-success">PHP ${r.rent}</td>
                         <td>
-                            <button class="btn btn-warning btn-xs fw-bold text-dark me-1" onclick="editRoomTrigger('${doc.id}', '${r.roomNum}', '${r.dormId}', ${r.capacity}, ${r.floor}, '${r.cr}', ${r.lamps}, ${r.windows}, '${r.size}', ${r.rent})"><i class="bi bi-pencil-fill"></i> Edit</button>
-                            <button class="btn btn-danger btn-xs fw-bold" onclick="deleteRoom('${doc.id}')"><i class="bi bi-trash-fill"></i> Delete</button>
+                            <button class="btn btn-warning btn-xs fw-bold text-dark me-1" onclick="editRoomTrigger('${doc.id}', '${r.roomNum}', '${r.dormId}', ${r.capacity}, ${r.floor}, '${r.cr}', ${r.lamps}, ${r.windows}, '${r.size}', ${r.rent})">Edit</button>
+                            <button class="btn btn-danger btn-xs fw-bold text-white" onclick="deleteRoom('${doc.id}')">Delete</button>
                         </td>
                     </tr>`;
             });
@@ -166,12 +166,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 occTableBody.innerHTML += `
                     <tr>
                         <td><strong>${o.lastname}</strong>, ${o.firstname}</td>
-                        <td>Unit ID: ${o.dormId} / Room: ${o.roomNum}</td>
+                        <td>Dorm: ${o.dormId} / Suite: ${o.roomNum}</td>
                         <td>${o.age} yrs / ${o.gender}</td>
-                        <td><i class="bi bi-telephone-fill me-1 text-secondary"></i> ${o.contact}</td>
+                        <td>${o.contact}</td>
                         <td>
-                            <button class="btn btn-warning btn-xs fw-bold text-dark me-1" onclick="editOccTrigger('${doc.id}', '${o.lastname}', '${o.firstname}', '${o.middlename}', ${o.age}, '${o.birthday}', '${o.gender}', '${o.status}', '${o.dormId}', '${o.roomNum}', '${o.contact}', '${o.emergency}')"><i class="bi bi-pencil-fill"></i> Edit</button>
-                            <button class="btn btn-danger btn-xs fw-bold" onclick="deleteOcc('${doc.id}')"><i class="bi bi-trash-fill"></i> Delete</button>
+                            <button class="btn btn-warning btn-xs fw-bold text-dark me-1" onclick="editOccTrigger('${doc.id}', '${o.lastname}', '${o.firstname}', '${o.middlename}', ${o.age}, '${o.birthday}', '${o.gender}', '${o.status}', '${o.dormId}', '${o.roomNum}', '${o.contact}', '${o.emergency}')">Edit</button>
+                            <button class="btn btn-danger btn-xs fw-bold text-white" onclick="deleteOcc('${doc.id}')">Delete</button>
                         </td>
                     </tr>`;
             });
@@ -193,20 +193,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
         localRooms.forEach(room => {
             const activeMatches = localOccupants.filter(o => o.roomNum === room.roomNum && o.dormId === room.dormId);
-            const occupantNames = activeMatches.map(o => `${o.firstname} ${o.lastname}`).join(', ') || "No Occupants Assigned Currently";
+            const occupantNames = activeMatches.map(o => `${o.firstname} ${o.lastname}`).join(', ') || "No Occupants Checked-In";
             
             overviewTableBody.innerHTML += `
                 <tr>
                     <td><span class="badge bg-maroon">${room.dormId}</span></td>
-                    <td>Complex Floor Allocation: ${room.floor}</td>
+                    <td>Dorm Complex Floor Level: ${room.floor}</td>
                     <td><strong>Room Suite ${room.roomNum}</strong></td>
-                    <td><span class="text-dark fw-semibold small"><i class="bi bi-person-check-fill text-success me-1"></i> ${occupantNames} (${activeMatches.length}/${room.capacity} slots checked-in)</span></td>
+                    <td><span class="text-dark fw-semibold small"><i class="bi bi-person-check-fill text-success me-1"></i> ${occupantNames} (${activeMatches.length}/${room.capacity} slots filled)</span></td>
                 </tr>`;
         });
     }
 
     // ==========================================
-    // 🧑‍🤝‍🧑 OCCUPANTS DATA CONTROLLERS (CRUD)
+    // 🧑‍🤝‍🧑 OCCUPANTS DATA ACTIONS HANDLERS (CRUD)
     // ==========================================
     occForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -252,21 +252,21 @@ window.addEventListener('DOMContentLoaded', () => {
         occEmergency.value = emer;
 
         occEditMode = true;
-        occSubmitBtn.textContent = "Apply Entry Adjustments";
-        occSubmitBtn.className = "btn btn-gold btn-sm fw-bold";
-        occFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Adjusting Selected Occupant Metrics`;
+        occSubmitBtn.textContent = "Apply Entry Changes";
+        occSubmitBtn.className = "btn btn-warning btn-sm fw-bold text-dark";
+        occFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Modifying Occupant Metrics`;
         
         document.getElementById('occupants-tab').click();
     };
 
     window.deleteOcc = async (id) => {
-        if (confirm("Warning: Are you absolutely sure you want to remove this tenant from the records database permanently?")) {
+        if (confirm("Permanently destroy this occupant directory registry trace?")) {
             await deleteDoc(doc(db, "occupants", id));
         }
     };
 
     // ==========================================
-    // 🚪 ROOMS DATA CONTROLLERS (CRUD)
+    // 🚪 ROOMS DATA DATA HANDLERS (CRUD)
     // ==========================================
     roomForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -308,15 +308,15 @@ window.addEventListener('DOMContentLoaded', () => {
         roomRent.value = rnt;
 
         roomEditMode = true;
-        roomSubmitBtn.textContent = "Apply Asset Adjustments";
-        roomSubmitBtn.className = "btn btn-gold btn-sm fw-bold";
-        roomFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Adjusting Selected Room Parameters`;
+        roomSubmitBtn.textContent = "Apply Asset Changes";
+        roomSubmitBtn.className = "btn btn-warning btn-sm fw-bold text-dark";
+        roomFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Modifying Room Parameters`;
 
         document.getElementById('rooms-tab').click();
     };
 
     window.deleteRoom = async (id) => {
-        if (confirm("Warning: Are you sure you want to destroy this room asset configuration record?")) {
+        if (confirm("Permanently destroy this room configuration tracking file instance?")) {
             await deleteDoc(doc(db, "rooms", id));
         }
     };
