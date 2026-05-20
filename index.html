@@ -8,18 +8,43 @@
     <style>
         body { background-color: #f4f6f9; }
         .container { max-width: 900px; margin-top: 30px; }
+        .auth-container { max-width: 400px; margin-top: 100px; }
+        /* Itatago muna natin ang main system sa simula */
+        #main-system { display: none; } 
     </style>
 </head>
 <body>
 
-    <div class="container bg-white p-4 rounded shadow">
-        <h2 class="text-center mb-4 text-primary">Dormitory Tenants Directory</h2>
+    <div id="auth-screen" class="container auth-container bg-white p-4 rounded shadow">
+        <h3 class="text-center text-primary mb-3" id="auth-title">Dorm System Login</h3>
+        <form id="auth-form">
+            <div class="mb-3">
+                <label class="form-label">Email address</label>
+                <input type="email" id="auth-email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" id="auth-password" class="form-control" required>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" id="auth-btn" class="btn btn-primary">Login</button>
+                <button type="button" id="toggle-auth" class="btn btn-link btn-sm">Don't have an account? Register</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="main-system" class="container bg-white p-4 rounded shadow">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-primary m-0">Dormitory Tenants Directory</h2>
+            <button id="logout-btn" class="btn btn-danger btn-sm">Logout</button>
+        </div>
 
         <div class="card mb-4">
             <div class="card-header bg-dark text-white" id="form-title">Add New Tenant</div>
             <div class="card-body">
                 <form id="tenant-form">
-                    <input type="hidden" id="tenant-id"> <div class="row g-3">
+                    <input type="hidden" id="tenant-id">
+                    <div class="row g-3">
                         <div class="col-md-5">
                             <input type="text" id="tenant-name" class="form-control" placeholder="Full Name" required>
                         </div>
@@ -50,10 +75,13 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, onSnapshot } 
+        import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot } 
         from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        // Idinagdag ang Firebase Auth
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } 
+        from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-        // // 📝 PAALALA: Palitan ito ng sarili mong Firebase Config!
+        // // 📝 PAALALA: Iwanan dito ang sarili mong Firebase Config na ginamit mo kanina!
         // const firebaseConfig = {
         //     apiKey: "YOUR_API_KEY",
         //     authDomain: "YOUR_AUTH_DOMAIN",
@@ -63,8 +91,7 @@
         //     appId: "YOUR_APP_ID"
         // };
 
-
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCp9DoerhTYmVnHFFUbeDikE_6FYmgzGnQ",
   authDomain: "dorm-system-55b8b.firebaseapp.com",
@@ -75,13 +102,14 @@ const firebaseConfig = {
   measurementId: "G-04VBNL2XZD"
 };
 
-        // Initialize Firebase & Firestore
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
 
-        // I-expose ang db at functions sa app.js sa pamamagitan ng paglalagay sa window object
         window.db = db;
-        window.dbTools = { collection, addDoc, getDocs, deleteDoc, doc, updateDoc, onSnapshot };
+        window.auth = auth;
+        window.dbTools = { collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot };
+        window.authTools = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged };
     </script>
 
     <script src="app.js"></script>
