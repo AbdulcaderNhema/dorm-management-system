@@ -21,7 +21,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url('unnamed.webp') !important; /* Loads your second uploaded image asset */
+    background-image: url('msu-campus.jpg') !important; /* Loads your second uploaded image asset */
     background-size: cover !important;
     background-position: center !important;
     background-repeat: no-repeat !important;

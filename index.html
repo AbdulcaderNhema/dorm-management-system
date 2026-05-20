@@ -15,7 +15,7 @@
     <div id="auth-screen">
         <div class="glass-card auth-card shadow-lg p-4 text-center animate-fade-in">
             <div class="mb-4 logo-wrapper">
-                <img src="Seal_of_the_Mindanao_State_University (1).png" alt="MSU Logo" class="auth-logo mb-3">
+                <img src="msu-logo.png" alt="MSU Logo" class="auth-logo mb-2">
                 <h3 class="fw-bold text-maroon m-0">MSU-Main Dormitory</h3>
                 <p class="text-muted small fw-bold tracking-wide text-uppercase mt-1">System Administrator Portal</p>
             </div>
@@ -30,7 +30,6 @@
                 </div>
                 <div class="d-grid gap-2 mt-4">
                     <button type="submit" id="auth-btn" class="btn btn-maroon p-2 fw-bold shadow-sm">Login to System</button>
-                    <button type="button" id="toggle-auth" class="btn btn-link btn-sm text-decoration-none text-maroon fw-bold mt-2">Need an Admin Account? Register Here</button>
                 </div>
             </form>
         </div>
@@ -39,7 +38,7 @@
     <div id="main-system">
         <div class="d-flex justify-content-between align-items-center main-header p-3 mb-4 shadow-sm">
             <h4 class="m-0 fw-bold text-maroon d-flex align-items-center">
-                <img src="Seal_of_the_Mindanao_State_University (1).png" alt="MSU Logo" class="header-logo me-2">
+                <img src="msu-logo.png" alt="MSU Logo" class="header-logo me-2">
                 <span class="tracking-tight">MSU DORMITORY MANAGEMENT HUB</span>
             </h4>
             <div class="d-flex align-items-center">
@@ -58,6 +57,11 @@
                 </li>
                 <li class="nav-item">
                     <button class="nav-link fw-bold" id="rooms-tab" data-bs-toggle="tab" data-bs-target="#rooms" type="button"><i class="bi bi-door-open-fill me-1"></i> Rooms Registry</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold" id="admins-tab" data-bs-toggle="tab" data-bs-target="#admins" type="button">
+                        <i class="bi bi-person-badge-fill me-1"></i> Admin Management
+                    </button>
                 </li>
             </ul>
 
@@ -231,10 +235,61 @@
                         </div>
                     </div>
                 </div>
+                    <div class="tab-pane fade" id="admins">
+                        <div class="row g-4">
 
+                            <div class="col-lg-4">
+                                <div class="card shadow-sm border-top-maroon content-card">
+                                    <div class="card-body">
+                                        <h5 class="fw-bold text-maroon mb-3">
+                                            <i class="bi bi-person-plus-fill me-1"></i>
+                                            Create New Administrator
+                                        </h5>
+
+                                        <form id="admin-form">
+                                            <div class="mb-3">
+                                                <label class="form-label fw-semibold">Admin Email</label>
+                                                <input type="email" id="new-admin-email" class="form-control form-control-sm" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label fw-semibold">Temporary Password</label>
+                                                <input type="password" id="new-admin-password" class="form-control form-control-sm" required>
+                                            </div>
+
+                                            <div class="d-grid">
+                                                <button type="submit" class="btn btn-maroon btn-sm fw-bold shadow-sm">
+                                                    Add Administrator
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-8">
+                                <div class="card shadow-sm content-card">
+                                    <div class="card-header bg-maroon p-3">
+                                        <h6 class="m-0 fw-bold text-white">
+                                            <i class="bi bi-shield-lock-fill me-2 text-gold"></i>
+                                            Registered System Administrators
+                                        </h6>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="alert alert-warning small mb-0">
+                                            Admin accounts are managed through Firebase Authentication.
+                                            Only authenticated administrators can create new admin accounts.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

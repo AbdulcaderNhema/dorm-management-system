@@ -22,6 +22,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const authBtn = document.getElementById('auth-btn');
     const toggleAuthBtn = document.getElementById('toggle-auth');
     const logoutBtn = document.getElementById('logout-btn');
+    // Admin Management Elements
+    const adminForm = document.getElementById('admin-form');
+    const newAdminEmail = document.getElementById('new-admin-email');
+    const newAdminPassword = document.getElementById('new-admin-password');
 
     // Directory Workspace Inputs Targets
     const occForm = document.getElementById('occ-form');
@@ -64,26 +68,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
     let localRooms = [];
     let localOccupants = [];
-    let isLoginMode = true;
     let occEditMode = false;
     let roomEditMode = false;
-
+    let isLoginMode = true;
     let unsubOccupants = null;
     let unsubRooms = null;
 
     // ==========================================
     // 🔐 CONTROL DECK ACCESS MANAGER SESSIONS
     // ==========================================
-    toggleAuthBtn.onclick = function() {
-        isLoginMode = !isLoginMode;
-        if (isLoginMode) {
-            authBtn.textContent = "Login to System";
-            toggleAuthBtn.textContent = "Need an Admin Account? Register Here";
-        } else {
-            authBtn.textContent = "Register Portal Account";
-            toggleAuthBtn.textContent = "Already registered? Login here";
-        }
-    };
 
     authForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -318,4 +311,33 @@ window.addEventListener('DOMContentLoaded', () => {
             await deleteDoc(doc(db, "rooms", id));
         }
     };
+    // ==========================================
+    // 👮 ADMIN MANAGEMENT OPERATIONS
+    // ==========================================
+    adminForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = newAdminEmail.value.trim();
+        const password = newAdminPassword.value.trim();
+
+        if (password.length < 6) {
+            alert("Password must contain at least 6 characters.");
+            return;
+        }
+
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+
+            alert("New administrator account created successfully.");
+
+            adminForm.reset();
+
+            // IMPORTANT:
+           // Firebase automatically logs into the newly created account.
+            // Re-login may be needed for the original admin.
+
+        } catch (error) {
+            alert("Admin creation failed: " + error.message);
+        }
+    });
 });
