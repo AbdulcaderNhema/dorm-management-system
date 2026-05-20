@@ -3,43 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dormitory Hub Management System</title>
+    <title>MSU-Main Dormitory Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="auth-screen" class="container d-flex justify-content-center">
-        <div class="card auth-card shadow-lg w-100 p-4 bg-white">
+    <div id="auth-screen" class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card auth-card shadow-lg w-100 p-4">
             <div class="text-center mb-4">
-                <i class="bi bi-building-gear text-primary" style="font-size: 3rem;"></i>
-                <h3 class="mt-2 fw-bold" id="auth-title">Dorm System Login</h3>
-                <p class="text-muted">Mangyaring mag-log in upang mamahala</p>
+                <i class="bi bi-building-fill-lock brand-gold" style="font-size: 3.5rem;"></i>
+                <h3 class="mt-2 fw-bold text-white" id="auth-title">MSU-Main Dormitory</h3>
+                <p class="text-light-muted">Please log in to manage the dormitory system</p>
             </div>
             <form id="auth-form">
                 <div class="mb-3">
-                    <label class="form-label"><i class="bi bi-envelope-fill me-1"></i> Email Address</label>
-                    <input type="email" id="auth-email" class="form-control" placeholder="name@example.com" required>
+                    <label class="form-label text-white"><i class="bi bi-envelope-fill me-1 brand-gold"></i> Email Address</label>
+                    <input type="email" id="auth-email" class="form-control custom-input" placeholder="admin@msu.edu.ph" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label"><i class="bi bi-lock-fill me-1"></i> Password</label>
-                    <input type="password" id="auth-password" class="form-control" placeholder="••••••••" required>
+                    <label class="form-label text-white"><i class="bi bi-lock-fill me-1 brand-gold"></i> Password</label>
+                    <input type="password" id="auth-password" class="form-control custom-input" placeholder="••••••••" required>
                 </div>
                 <div class="d-grid gap-2 mt-4">
-                    <button type="submit" id="auth-btn" class="btn btn-primary p-2">Login</button>
-                    <button type="button" id="toggle-auth" class="btn btn-link btn-sm text-decoration-none">Walang account? Mag-register dito</button>
+                    <button type="submit" id="auth-btn" class="btn btn-gold p-2 fw-bold">Login</button>
+                    <button type="button" id="toggle-auth" class="btn btn-link btn-sm text-decoration-none text-white-50">Don't have an account? Register here</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="main-system" class="container main-container">
-        <div class="d-flex justify-content-between align-items-center bg-white p-3 rounded shadow-sm mb-4">
-            <h4 class="text-primary m-0 fw-bold"><i class="bi bi-houses-fill me-2"></i>Dormitory Hub</h4>
+    <div id="main-system" class="container main-container my-4">
+        <div class="d-flex justify-content-between align-items-center main-header p-3 rounded shadow-sm mb-4">
+            <h4 class="m-0 fw-bold text-white"><i class="bi bi-houses-fill me-2 brand-gold"></i>MSU Dormitory Management Hub</h4>
             <div class="d-flex align-items-center">
-                <span class="me-3 text-muted d-none d-md-inline" id="user-display">Admin</span>
-                <button id="logout-btn" class="btn btn-outline-danger btn-sm"><i class="bi bi-box-arrow-right me-1"></i>Logout</button>
+                <span class="me-3 text-white fw-medium d-none d-md-inline" id="user-display">Admin</span>
+                <button id="logout-btn" class="btn btn-outline-gold btn-sm"><i class="bi bi-box-arrow-right me-1"></i>Logout</button>
             </div>
         </div>
 
@@ -60,27 +60,27 @@
             <div class="tab-pane fade show active" id="overview">
                 <div class="row g-3 mb-4">
                     <div class="col-md-6">
-                        <div class="card p-3 bg-primary text-white dashboard-card">
-                            <h6>Kabuuang Kwarto</h6>
-                            <h2 id="stat-total-rooms">0</h2>
+                        <div class="card p-3 dashboard-card text-white bg-maroon">
+                            <h6 class="text-uppercase fw-bold text-white-50">Total Registered Rooms</h6>
+                            <h2 id="stat-total-rooms" class="fw-bold brand-gold">0</h2>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="card p-3 bg-success text-white dashboard-card">
-                            <h6>Kabuuang Occupants</h6>
-                            <h2 id="stat-total-occupants">0</h2>
+                        <div class="card p-3 dashboard-card text-white bg-maroon">
+                            <h6 class="text-uppercase fw-bold text-white-50">Total Active Occupants</h6>
+                            <h2 id="stat-total-occupants" class="fw-bold brand-gold">0</h2>
                         </div>
                     </div>
                 </div>
-                <div class="card p-4 shadow-sm">
-                    <h5 class="fw-bold mb-3">Dormitory Status Table</h5>
+                <div class="card p-4 shadow-sm bg-white">
+                    <h5 class="fw-bold text-maroon mb-3"><i class="bi bi-table me-2"></i>Dormitory Real-Time Status Directory</h5>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
-                            <thead class="table-dark">
+                            <thead class="table-maroon-header">
                                 <tr>
                                     <th>Dorm ID</th>
                                     <th>Dorm Unit Info</th>
-                                    <th>Kuwarto Blg.</th>
+                                    <th>Room No.</th>
                                     <th>Occupants Checked-In</th>
                                 </tr>
                             </thead>
@@ -93,23 +93,23 @@
             <div class="tab-pane fade" id="occupants">
                 <div class="row g-3">
                     <div class="col-lg-4">
-                        <div class="card p-3 shadow-sm">
-                            <h6 class="fw-bold text-secondary mb-3" id="occ-form-title">Magdagdag ng Occupant</h6>
+                        <div class="card p-3 shadow-sm bg-white border-top-maroon">
+                            <h6 class="fw-bold text-maroon mb-3" id="occ-form-title"><i class="bi bi-person-plus-fill me-1"></i> Add New Occupant</h6>
                             <form id="occ-form">
                                 <input type="hidden" id="occ-id">
-                                <div class="mb-2"><input type="text" id="occ-lastname" class="form-control form-control-sm" placeholder="Apelyido" required></div>
-                                <div class="mb-2"><input type="text" id="occ-firstname" class="form-control form-control-sm" placeholder="Pangalan" required></div>
-                                <div class="mb-2"><input type="text" id="occ-middlename" class="form-control form-control-sm" placeholder="Gitnang Pangalan"></div>
+                                <div class="mb-2"><input type="text" id="occ-lastname" class="form-control form-control-sm" placeholder="Last Name" required></div>
+                                <div class="mb-2"><input type="text" id="occ-firstname" class="form-control form-control-sm" placeholder="First Name" required></div>
+                                <div class="mb-2"><input type="text" id="occ-middlename" class="form-control form-control-sm" placeholder="Middle Name"></div>
                                 <div class="row g-2 mb-2">
-                                    <div class="col-6"><input type="number" id="occ-age" class="form-control form-control-sm" placeholder="Edad" required></div>
+                                    <div class="col-6"><input type="number" id="occ-age" class="form-control form-control-sm" placeholder="Age" required></div>
                                     <div class="col-6"><input type="date" id="occ-birthday" class="form-control form-control-sm" required></div>
                                 </div>
                                 <div class="row g-2 mb-2">
                                     <div class="col-6">
                                         <select id="occ-gender" class="form-select form-select-sm" required>
-                                            <option value="">Kasarian</option>
-                                            <option value="Male">Lalaki</option>
-                                            <option value="Female">Babae</option>
+                                            <option value="">Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
                                         </select>
                                     </div>
                                     <div class="col-6">
@@ -125,22 +125,22 @@
                                 </div>
                                 <div class="mb-2"><input type="text" id="occ-contact" class="form-control form-control-sm" placeholder="Contact No." required></div>
                                 <div class="mb-3"><input type="text" id="occ-emergency" class="form-control form-control-sm" placeholder="Emergency Contact No."></div>
-                                <div class="d-grid"><button type="submit" id="occ-submit-btn" class="btn btn-success btn-sm">I-save Occupant</button></div>
+                                <div class="d-grid"><button type="submit" id="occ-submit-btn" class="btn btn-maroon btn-sm fw-bold">Save Occupant</button></div>
                             </form>
                         </div>
                     </div>
                     <div class="col-lg-8">
-                        <div class="card p-3 shadow-sm">
-                            <h6 class="fw-bold text-secondary mb-3">Talaan ng mga Occupants</h6>
+                        <div class="card p-3 shadow-sm bg-white">
+                            <h6 class="fw-bold text-maroon mb-3"><i class="bi bi-list-ul me-1"></i> Occupant Master List</h6>
                             <div class="table-responsive">
                                 <table class="table table-sm table-striped align-middle">
-                                    <thead class="table-primary">
+                                    <thead class="table-maroon-header">
                                         <tr>
-                                            <th>Pangalan</th>
-                                            <th>Dorm/Kuwarto</th>
-                                            <th>Edad/Kasarian</th>
-                                            <th>Contact</th>
-                                            <th>Aksyon</th>
+                                            <th>Full Name</th>
+                                            <th>Dorm / Room</th>
+                                            <th>Age / Gender</th>
+                                            <th>Contact No.</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="occ-table-body"></tbody>
@@ -154,8 +154,8 @@
             <div class="tab-pane fade" id="rooms">
                 <div class="row g-3">
                     <div class="col-lg-4">
-                        <div class="card p-3 shadow-sm">
-                            <h6 class="fw-bold text-secondary mb-3" id="room-form-title">Magdagdag ng Kwarto</h6>
+                        <div class="card p-3 shadow-sm bg-white border-top-maroon">
+                            <h6 class="fw-bold text-maroon mb-3" id="room-form-title"><i class="bi bi-door-open-fill me-1"></i> Add New Room</h6>
                             <form id="room-form">
                                 <input type="hidden" id="room-id">
                                 <div class="mb-2"><input type="text" id="room-number-input" class="form-control form-control-sm" placeholder="Room Number" required></div>
@@ -164,31 +164,31 @@
                                     <div class="col-6"><input type="number" id="room-capacity" class="form-control form-control-sm" placeholder="Capacity" required></div>
                                     <div class="col-6"><input type="number" id="room-floor" class="form-control form-control-sm" placeholder="Floor No." required></div>
                                 </div>
-                                <div class="mb-2"><input type="text" id="room-cr" class="form-control form-control-sm" placeholder="CR (e.g., Shared/Private)"></div>
+                                <div class="mb-2"><input type="text" id="room-cr" class="form-control form-control-sm" placeholder="CR Type (e.g., Shared/Private)"></div>
                                 <div class="row g-2 mb-2">
-                                    <div class="col-6"><input type="number" id="room-lamps" class="form-control form-control-sm" placeholder="Lamps"></div>
-                                    <div class="col-6"><input type="number" id="room-windows" class="form-control form-control-sm" placeholder="Windows"></div>
+                                    <div class="col-6"><input type="number" id="room-lamps" class="form-control form-control-sm" placeholder="Lamps Count"></div>
+                                    <div class="col-6"><input type="number" id="room-windows" class="form-control form-control-sm" placeholder="Windows Count"></div>
                                 </div>
                                 <div class="row g-2 mb-3">
                                     <div class="col-6"><input type="text" id="room-size" class="form-control form-control-sm" placeholder="Size (sqm)"></div>
                                     <div class="col-6"><input type="number" id="room-rent" class="form-control form-control-sm" placeholder="Rent Price" required></div>
                                 </div>
-                                <div class="d-grid"><button type="submit" id="room-submit-btn" class="btn btn-success btn-sm">I-save Kwarto</button></div>
+                                <div class="d-grid"><button type="submit" id="room-submit-btn" class="btn btn-maroon btn-sm fw-bold">Save Room</button></div>
                             </form>
                         </div>
                     </div>
                     <div class="col-lg-8">
-                        <div class="card p-3 shadow-sm">
-                            <h6 class="fw-bold text-secondary mb-3">Talaan ng mga Kwarto</h6>
+                        <div class="card p-3 shadow-sm bg-white">
+                            <h6 class="fw-bold text-maroon mb-3"><i class="bi bi-list-stars me-1"></i> Room Directory Registry</h6>
                             <div class="table-responsive">
                                 <table class="table table-sm table-striped align-middle">
-                                    <thead class="table-success">
+                                    <thead class="table-maroon-header">
                                         <tr>
                                             <th>Room No.</th>
                                             <th>Dorm ID</th>
-                                            <th>Kapasidad</th>
-                                            <th>Upa (Rent)</th>
-                                            <th>Aksyon</th>
+                                            <th>Max Capacity</th>
+                                            <th>Monthly Rent</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="rooms-table-body"></tbody>

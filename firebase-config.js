@@ -4,7 +4,7 @@ from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } 
 from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-// // Susi ng iyong NoSQL Database
+// // 📝 REMINDER: Paste your active Firebase SDK Config values right here!
 // const firebaseConfig = {
 //     apiKey: "YOUR_API_KEY",
 //     authDomain: "YOUR_AUTH_DOMAIN",
@@ -13,6 +13,7 @@ from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 //     messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
 //     appId: "YOUR_APP_ID"
 // };
+
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -26,12 +27,11 @@ const firebaseConfig = {
 };
 
 
-// I-initialize ang Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// I-share natin ito sa `app.js` file sa pamamagitan ng window global object
+// Propagate instances as global windows parameters
 window.db = db;
 window.auth = auth;
 window.dbTools = { collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot };

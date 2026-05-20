@@ -1,56 +1,131 @@
+/* Custom MSU Maroon & Cute Gold Color Scheme Customization */
+:root {
+    --msu-maroon: #7A1C1C;
+    --msu-maroon-dark: #5C1313;
+    --msu-gold: #FFD700;
+    --msu-gold-hover: #E6C200;
+    --bg-light: #FDFBFB;
+}
+
 body {
-    background-color: #f4f6f9;
+    background-color: var(--bg-light);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Auth Login Screen Styles */
+/* Elegant Utility Classes */
+.text-maroon { color: var(--msu-maroon) !important; }
+.bg-maroon { background-color: var(--msu-maroon) !important; }
+.brand-gold { color: var(--msu-gold) !important; }
+.text-light-muted { color: #E2C2C2; font-size: 0.9rem; }
+
+/* Dynamic Auth Window Popup styling */
 .auth-card {
+    background-color: var(--msu-maroon) !important;
     max-width: 450px;
-    margin-top: 80px;
     border: none;
-    border-radius: 12px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(122, 28, 28, 0.3) !important;
 }
 
-/* Main Dashboard UI */
+.custom-input {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+.custom-input::placeholder {
+    color: #CFAAAA !important;
+}
+
+.custom-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25) !important;
+    border-color: var(--msu-gold) !important;
+}
+
+/* Elegant Buttons Layout */
+.btn-gold {
+    background-color: var(--msu-gold) !important;
+    color: var(--msu-maroon) !important;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-gold:hover {
+    background-color: var(--msu-gold-hover) !important;
+    transform: scale(1.02);
+}
+
+.btn-outline-gold {
+    border: 1px solid var(--msu-gold) !important;
+    color: var(--msu-gold) !important;
+}
+
+.btn-outline-gold:hover {
+    background-color: var(--msu-gold) !important;
+    color: var(--msu-maroon) !important;
+}
+
+.btn-maroon {
+    background-color: var(--msu-maroon) !important;
+    color: white !important;
+}
+
+.btn-maroon:hover {
+    background-color: var(--msu-maroon-dark) !important;
+    color: white !important;
+}
+
+/* Standalone Master Dashboard Screen Container */
 .main-container {
-    display: none; /* Itatago habang hindi pa logged-in */
-    margin-top: 20px;
+    display: none; /* Completely hidden when Auth window popup is showing */
 }
 
+.main-header {
+    background-color: var(--msu-maroon) !important;
+    border-radius: 12px !important;
+}
+
+/* Component Navigation Tab layout custom color */
 .nav-tabs .nav-link {
-    color: #495057;
-    font-weight: 500;
+    color: #666;
+    font-weight: 600;
     border: none;
+    padding: 10px 20px;
 }
 
 .nav-tabs .nav-link.active {
-    background-color: #fff;
-    color: #0d6efd;
-    font-weight: bold;
-    border-bottom: 2px solid #0d6efd;
+    background-color: transparent !important;
+    color: var(--msu-maroon) !important;
+    border-bottom: 3px solid var(--msu-maroon) !important;
 }
 
 .card {
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
+}
+
+.border-top-maroon {
+    border-top: 4px solid var(--msu-maroon) !important;
 }
 
 .dashboard-card {
-    border-radius: 8px;
-    transition: transform 0.2s;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(122, 28, 28, 0.1);
 }
 
-.dashboard-card:hover {
-    transform: translateY(-3px);
+.table-maroon-header th {
+    background-color: var(--msu-maroon) !important;
+    color: white !important;
+    font-weight: 600;
 }
 
 .table-responsive {
-    max-height: 430px;
+    max-height: 450px;
     overflow-y: auto;
 }
 
 .btn-xs {
-    padding: 2px 6px;
+    padding: 2px 8px;
     font-size: 0.75rem;
     border-radius: 4px;
 }
