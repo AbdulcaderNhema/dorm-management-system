@@ -1,20 +1,20 @@
 window.addEventListener('DOMContentLoaded', () => {
-    // Extract Firebase Global Instance Modules
+    // Unpack Shared Cloud Firestore & Authentication Framework Tools
     const db = window.db;
     const auth = window.auth;
     const { collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot } = window.dbTools;
     const { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } = window.authTools;
 
-    // Database Cloud Pointer Nodes
+    // Database Reference Points Hooks
     const occupantsCollection = collection(db, "occupants");
     const roomsCollection = collection(db, "rooms");
 
-    // Independent Window Display Targets
+    // Standalone Workflow Window State Handles
     const authScreen = document.getElementById('auth-screen');
     const mainSystem = document.getElementById('main-system');
     const userDisplay = document.getElementById('user-display');
 
-    // Access Authentication Input Nodes
+    // Access Authentication Form Elements handles
     const authForm = document.getElementById('auth-form');
     const authEmail = document.getElementById('auth-email');
     const authPassword = document.getElementById('auth-password');
@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const toggleAuthBtn = document.getElementById('toggle-auth');
     const logoutBtn = document.getElementById('logout-btn');
 
-    // Tenant Profile Input Elements
+    // Directory Workspace Inputs Targets
     const occForm = document.getElementById('occ-form');
     const occId = document.getElementById('occ-id');
     const occLastname = document.getElementById('occ-lastname');
@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const occFormTitle = document.getElementById('occ-form-title');
     const occTableBody = document.getElementById('occ-table-body');
 
-    // Room Property Input Elements
+    // Registry Workspace Inputs Targets
     const roomForm = document.getElementById('room-form');
     const roomId = document.getElementById('room-id');
     const roomNumberInput = document.getElementById('room-number-input');
@@ -57,7 +57,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const roomFormTitle = document.getElementById('room-form-title');
     const roomsTableBody = document.getElementById('rooms-table-body');
 
-    // Total Aggregates Tracking Targets
+    // Metric Summary Presentation Handles
     const statTotalRooms = document.getElementById('stat-total-rooms');
     const statTotalOccupants = document.getElementById('stat-total-occupants');
     const overviewTableBody = document.getElementById('overview-table-body');
@@ -72,17 +72,15 @@ window.addEventListener('DOMContentLoaded', () => {
     let unsubRooms = null;
 
     // ==========================================
-    // 🔐 DYNAMIC ACCESS SESSION CONTROLLER INTERFACES
+    // 🔐 CONTROL DECK ACCESS MANAGER SESSIONS
     // ==========================================
     toggleAuthBtn.onclick = function() {
         isLoginMode = !isLoginMode;
         if (isLoginMode) {
-            authTitle.textContent = "MSU-Main Dormitory";
             authBtn.textContent = "Login to System";
             toggleAuthBtn.textContent = "Need an Admin Account? Register Here";
         } else {
-            authTitle.textContent = "Register Administrator";
-            authBtn.textContent = "Create Account";
+            authBtn.textContent = "Register Portal Account";
             toggleAuthBtn.textContent = "Already registered? Login here";
         }
     };
@@ -93,7 +91,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const password = authPassword.value;
 
         if (password.length < 6) {
-            alert("Security Notice: Password length validation must match at least 6 characters.");
+            alert("Security Core: Password parameters length matrix must equal at least 6 characters.");
             return;
         }
 
@@ -102,30 +100,30 @@ window.addEventListener('DOMContentLoaded', () => {
                 await signInWithEmailAndPassword(auth, email, password);
             } else {
                 await createUserWithEmailAndPassword(auth, email, password);
-                alert("Success: Administrator login account provisioned.");
+                alert("Success: System administration access credentials established.");
             }
             authForm.reset();
         } catch (error) {
-            alert("Access Authentication Error: " + error.message);
+            alert("Security Gatekeeper Notification: " + error.message);
         }
     });
 
     logoutBtn.addEventListener('click', async () => {
-        if (confirm("System Control Notification: Are you sure you want to sign out from the active session?")) {
+        if (confirm("Core System Notice: Disconnect active administration token session window?")) {
             await signOut(auth);
         }
     });
 
-    // 💥 HANDLES INDEPENDENT SEPARATE POPUP DISPLAY LAYOUT LOGIC
+    // 💥 PROGRAMMATIC ROUTING CONTROLLER BETWEEN LOGIN AND DORMITORY HUB WORKSPACE
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            // Hides authentication card container cleanly and triggers dashboard workspace visibility
+            // SUCCESSFUL SESSION: Completely hides Login overlay screen, brings the glassmorphism workspace to view
             authScreen.style.setProperty('display', 'none', 'important');
             mainSystem.style.setProperty('display', 'block', 'important');
             userDisplay.textContent = `Admin: ${user.email}`;
             startDataSync();
         } else {
-            // Destroys dashboard workspace visibility structure and loads login card frame standalone
+            // NO SESSION ACCESSED: Force clears workflow data visibility frames, displays Login UI standalone
             authScreen.style.setProperty('display', 'flex', 'important');
             mainSystem.style.setProperty('display', 'none', 'important');
             stopDataSync();
@@ -133,7 +131,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // 📊 CLOUD DATABASE SYNCHRONIZATION ENGINES
+    // 📊 REALTIME SNAPSHOT STREAM SUBSCRIPTIONS
     // ==========================================
     function startDataSync() {
         unsubRooms = onSnapshot(roomsCollection, (snapshot) => {
@@ -146,7 +144,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     <tr>
                         <td><strong>Room No. ${r.roomNum}</strong></td>
                         <td><span class="badge bg-maroon">${r.dormId}</span></td>
-                        <td>${r.capacity} Slots Cap</td>
+                        <td>${r.capacity} Total Slots</td>
                         <td class="fw-bold text-success">PHP ${r.rent}</td>
                         <td>
                             <button class="btn btn-warning btn-xs fw-bold text-dark me-1" onclick="editRoomTrigger('${doc.id}', '${r.roomNum}', '${r.dormId}', ${r.capacity}, ${r.floor}, '${r.cr}', ${r.lamps}, ${r.windows}, '${r.size}', ${r.rent})">Edit</button>
@@ -166,7 +164,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 occTableBody.innerHTML += `
                     <tr>
                         <td><strong>${o.lastname}</strong>, ${o.firstname}</td>
-                        <td>Dorm: ${o.dormId} / Suite: ${o.roomNum}</td>
+                        <td>Dorm: ${o.dormId} / Room: ${o.roomNum}</td>
                         <td>${o.age} yrs / ${o.gender}</td>
                         <td>${o.contact}</td>
                         <td>
@@ -198,15 +196,15 @@ window.addEventListener('DOMContentLoaded', () => {
             overviewTableBody.innerHTML += `
                 <tr>
                     <td><span class="badge bg-maroon">${room.dormId}</span></td>
-                    <td>Dorm Complex Floor Level: ${room.floor}</td>
+                    <td>Dorm Complex Floor Allocation: ${room.floor}</td>
                     <td><strong>Room Suite ${room.roomNum}</strong></td>
-                    <td><span class="text-dark fw-semibold small"><i class="bi bi-person-check-fill text-success me-1"></i> ${occupantNames} (${activeMatches.length}/${room.capacity} slots filled)</span></td>
+                    <td><span class="text-dark fw-semibold small"><i class="bi bi-person-check-fill text-success me-1"></i> ${occupantNames} (${activeMatches.length}/${room.capacity} slots loaded)</span></td>
                 </tr>`;
         });
     }
 
     // ==========================================
-    // 🧑‍🤝‍🧑 OCCUPANTS DATA ACTIONS HANDLERS (CRUD)
+    // 🧑‍🤝‍🧑 OCCUPANTS OPERATION ENGINE (CRUD)
     // ==========================================
     occForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -252,21 +250,21 @@ window.addEventListener('DOMContentLoaded', () => {
         occEmergency.value = emer;
 
         occEditMode = true;
-        occSubmitBtn.textContent = "Apply Entry Changes";
+        occSubmitBtn.textContent = "Apply Modification Matrix";
         occSubmitBtn.className = "btn btn-warning btn-sm fw-bold text-dark";
-        occFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Modifying Occupant Metrics`;
+        occFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Adjusting Target Occupant Trace`;
         
         document.getElementById('occupants-tab').click();
     };
 
     window.deleteOcc = async (id) => {
-        if (confirm("Permanently destroy this occupant directory registry trace?")) {
+        if (confirm("Core Warning: Delete target occupant tracking metrics from database storage files?")) {
             await deleteDoc(doc(db, "occupants", id));
         }
     };
 
     // ==========================================
-    // 🚪 ROOMS DATA DATA HANDLERS (CRUD)
+    // 🚪 ROOMS OPERATION ENGINE (CRUD)
     // ==========================================
     roomForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -308,15 +306,15 @@ window.addEventListener('DOMContentLoaded', () => {
         roomRent.value = rnt;
 
         roomEditMode = true;
-        roomSubmitBtn.textContent = "Apply Asset Changes";
+        roomSubmitBtn.textContent = "Apply Configuration Updates";
         roomSubmitBtn.className = "btn btn-warning btn-sm fw-bold text-dark";
-        roomFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Modifying Room Parameters`;
+        roomFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Adjusting Target Room Parameters`;
 
         document.getElementById('rooms-tab').click();
     };
 
     window.deleteRoom = async (id) => {
-        if (confirm("Permanently destroy this room configuration tracking file instance?")) {
+        if (confirm("Core Warning: Destroy target room profile index metrics trace configuration file?")) {
             await deleteDoc(doc(db, "rooms", id));
         }
     };

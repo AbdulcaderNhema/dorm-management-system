@@ -1,10 +1,9 @@
-/* Official Lightened MSU Campus Aesthetics Palette Configuration */
+/* Light Cute Theme Design Tokens Setup */
 :root {
-    --light-maroon: #A63F3F !important;         /* Light cute Maroon */
-    --light-maroon-hover: #BF5A5A !important;   /* Extra smooth hover state maroon */
-    --light-maroon-dark: #7A2626 !important;    /* Rich core tone */
-    --pastel-yellow: #FFF2B2 !important;        /* Warm light yellow/cream */
-    --pastel-gold-text: #E5C100 !important;     /* Bright soft gold font accent */
+    --light-maroon: #B54F4F !important;         /* Light Cute Soft Maroon */
+    --light-maroon-hover: #CD6666 !important;   /* Vibrant light hover states */
+    --light-maroon-dark: #8C3535 !important;    /* Structured clean tables layout background */
+    --soft-cream-yellow: #FFF8D1 !important;    /* Pastel gold accent */
 }
 
 body {
@@ -15,68 +14,95 @@ body {
     overflow-x: hidden;
 }
 
-/* 🌌 SEMI-TRANSPARENT CAMPUS PHOTO ATTACHMENT BACKGROUND */
-.campus-bg-overlay {
+/* 🌌 CRISP OVERLAY FOR THE CAMPUS BACKGROUND IMAGE */
+.campus-bg-base {
     position: fixed !important;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url('unnamed.webp') !important; /* Loaded MSU campus view file */
+    background-image: url('unnamed.webp') !important; /* Loads your second uploaded image asset */
     background-size: cover !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
-    opacity: 0.18 !important; /* Elegant semi-transparent overlay value */
-    z-index: -1 !important; /* Placed cleanly underneath layout workflow */
+    z-index: -2 !important; /* Locks it to the absolute bottom layer */
 }
 
-/* Color Identity Helper Classes */
+/* Helper Class References */
 .text-maroon { color: var(--light-maroon) !important; }
 .bg-maroon { background-color: var(--light-maroon) !important; }
-.text-gold { color: var(--pastel-yellow) !important; }
+.text-gold { color: var(--soft-cream-yellow) !important; }
 
-/* 🔐 WINDOW 1: LOGIN PORTAL STRUCTURE CONTAINER */
+/* 🌟 CORE GLASSMORPHISM STYLE SYSTEM DEFINITIONS */
+.glass-card {
+    background: rgba(255, 255, 255, 0.72) !important; /* Semi-transparent base tint */
+    backdrop-filter: blur(12px) saturate(160%) !important; /* Frosted Glass engine rules */
+    -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.45) !important;
+    border-radius: 16px !important;
+}
+
+/* 🔐 WINDOW 1: STANDALONE INDEPENDENT LOGIN FRAME OVERLAY */
 #auth-screen {
     position: fixed !important;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: radial-gradient(circle, rgba(255,255,255,0.92) 0%, rgba(245,240,240,0.96) 100%) !important;
+    /* Soft shading gradient creates optimal text contrast over the background */
+    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(220,210,210,0.5) 100%) !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    z-index: 99999 !important; /* Locks screen over dashboard entirely */
+    z-index: 99999 !important; /* Always keeps the login screen layered strictly on top */
 }
 
 .auth-card {
-    background-color: #ffffff !important;
-    border: 3px solid var(--light-maroon) !important;
-    border-radius: 20px !important;
     width: 100%;
-    max-width: 430px;
-    box-shadow: 0 15px 40px rgba(166, 63, 63, 0.15) !important;
+    max-width: 420px;
+    border: 2px solid rgba(181, 79, 79, 0.4) !important;
+    padding: 2.5rem !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* 🖼️ LOGO CORRECTIONS ENGINE - GUARANTEES ABSOLUTE VISIBILITY */
+.logo-wrapper {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
 }
 
 .auth-logo {
-    width: 95px;
-    height: 95px;
-    object-fit: contain;
+    width: 110px !important;
+    height: 110px !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+    filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.12)) !important; /* Separates the emblem gracefully */
 }
 
+.header-logo {
+    width: 48px !important;
+    height: 48px !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.08)) !important;
+}
+
+/* Inputs Engine Custom Framework */
 .custom-input {
-    background-color: #FAFAFA !important;
-    border: 1px solid #D6C2C2 !important;
-    color: #333333 !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(181, 79, 79, 0.3) !important;
+    color: #222222 !important;
+    font-weight: 500;
 }
 
 .custom-input:focus {
-    background-color: #ffffff !important;
+    background: #ffffff !important;
     border-color: var(--light-maroon) !important;
-    box-shadow: 0 0 0 0.25rem rgba(166, 63, 63, 0.18) !important;
+    box-shadow: 0 0 0 0.25rem rgba(181, 79, 79, 0.2) !important;
 }
 
-/* UI Interactive Buttons Engine Layout styles */
+/* Component Interaction Action Elements */
 .btn-maroon {
     background-color: var(--light-maroon) !important;
     color: #ffffff !important;
@@ -90,90 +116,79 @@ body {
     transform: translateY(-1px) !important;
 }
 
-.btn-maroon:active {
-    transform: translateY(1px) !important;
-}
-
-/* 🏠 WINDOW 2: MASTER INDEPENDENT HUB WORKSPACE WRAPPER */
+/* 🏠 WINDOW 2: APPLICATION WORKSPACE SEPARATED PLATFORM VIEW */
 #main-system {
-    display: none; /* Safely and programmatically controlled inside app.js layout runtime */
+    display: none; /* Managed cleanly via the authentication logic event handler listeners */
     position: relative;
     z-index: 10;
 }
 
-.header-logo {
-    width: 45px;
-    height: 45px;
-    object-fit: contain;
-}
-
 .main-header {
-    background-color: rgba(255, 255, 255, 0.95) !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(10px) !important;
     border-bottom: 4px solid var(--light-maroon) !important;
-    backdrop-filter: blur(5px);
 }
 
-/* Modular Navigation Selection Panel Link Tabs */
+/* Workspace Routing Links Control Panel Bars */
 .nav-tabs {
     border-bottom: 2px solid var(--light-maroon) !important;
 }
 
 .nav-tabs .nav-link {
-    color: #666666 !important;
+    color: #444444 !important;
     border: none !important;
     padding: 12px 24px !important;
     transition: all 0.2s !important;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    font-weight: 600;
 }
 
 .nav-tabs .nav-link:hover {
     color: var(--light-maroon) !important;
-    background-color: var(--pastel-yellow) !important;
+    background-color: rgba(255, 248, 209, 0.6) !important;
 }
 
 .nav-tabs .nav-link.active {
     color: #ffffff !important;
     background-color: var(--light-maroon) !important;
-    border: none !important;
+    border-radius: 8px 8px 0 0 !important;
 }
 
-/* Dashboard Metric Element Content Cards Blueprint */
-.content-card {
-    background-color: rgba(255, 255, 255, 0.92) !important;
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(166, 63, 63, 0.15) !important;
+/* Dashboard Summary Widgets Configurations */
+.metric-card {
+    background: rgba(255, 248, 209, 0.65) !important; /* Soft Pastel yellow blended glass effect */
+    border-left: 6px solid var(--light-maroon) !important;
 }
 
 .border-top-maroon {
     border-top: 5px solid var(--light-maroon) !important;
 }
 
-.metric-card {
-    background-color: var(--pastel-yellow) !important;
-    border-left: 6px solid var(--light-maroon) !important;
-    border-radius: 14px !important;
-    border-top: none;
-    border-right: none;
-    border-bottom: none;
-}
-
-/* Grid Matrix Tables layout configurations */
+/* Matrix Table Structuring Architecture Overrides */
 .table-light-maroon-header th {
     background-color: var(--light-maroon-dark) !important;
     color: #ffffff !important;
     font-weight: 600 !important;
-    border: none !important;
     padding: 12px !important;
+    border: none !important;
 }
 
 .table-responsive {
-    max-height: 490px;
+    max-height: 480px;
     overflow-y: auto;
 }
 
 .btn-xs {
-    padding: 3px 12px !important;
+    padding: 4px 12px !important;
     font-size: 0.78rem !important;
     border-radius: 6px !important;
+}
+
+/* UI Entrance Motion Sequences */
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
 }
