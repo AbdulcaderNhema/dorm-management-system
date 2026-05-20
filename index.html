@@ -3,115 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dormitory Management System</title>
+    <title>Dormitory Hub Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f4f6f9; }
-        .container { max-width: 900px; margin-top: 30px; }
-        .auth-container { max-width: 400px; margin-top: 100px; }
-        /* Itatago muna natin ang main system sa simula */
-        #main-system { display: none; } 
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="auth-screen" class="container auth-container bg-white p-4 rounded shadow">
-        <h3 class="text-center text-primary mb-3" id="auth-title">Dorm System Login</h3>
-        <form id="auth-form">
-            <div class="mb-3">
-                <label class="form-label">Email address</label>
-                <input type="email" id="auth-email" class="form-control" required>
+    <div id="auth-screen" class="container d-flex justify-content-center">
+        <div class="card auth-card shadow-lg w-100 p-4 bg-white">
+            <div class="text-center mb-4">
+                <i class="bi bi-building-gear text-primary" style="font-size: 3rem;"></i>
+                <h3 class="mt-2 fw-bold" id="auth-title">Dorm System Login</h3>
+                <p class="text-muted">Mangyaring mag-log in upang mamahala</p>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input type="password" id="auth-password" class="form-control" required>
-            </div>
-            <div class="d-grid gap-2">
-                <button type="submit" id="auth-btn" class="btn btn-primary">Login</button>
-                <button type="button" id="toggle-auth" class="btn btn-link btn-sm">Don't have an account? Register</button>
-            </div>
-        </form>
+            <form id="auth-form">
+                <div class="mb-3">
+                    <label class="form-label"><i class="bi bi-envelope-fill me-1"></i> Email Address</label>
+                    <input type="email" id="auth-email" class="form-control" placeholder="name@example.com" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"><i class="bi bi-lock-fill me-1"></i> Password</label>
+                    <input type="password" id="auth-password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" id="auth-btn" class="btn btn-primary p-2">Login</button>
+                    <button type="button" id="toggle-auth" class="btn btn-link btn-sm text-decoration-none">Walang account? Mag-register dito</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <div id="main-system" class="container bg-white p-4 rounded shadow">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="text-primary m-0">Dormitory Tenants Directory</h2>
-            <button id="logout-btn" class="btn btn-danger btn-sm">Logout</button>
+    <div id="main-system" class="container main-container">
+        <div class="d-flex justify-content-between align-items-center bg-white p-3 rounded shadow-sm mb-4">
+            <h4 class="text-primary m-0 fw-bold"><i class="bi bi-houses-fill me-2"></i>Dormitory Hub</h4>
+            <div class="d-flex align-items-center">
+                <span class="me-3 text-muted d-none d-md-inline" id="user-display">Admin</span>
+                <button id="logout-btn" class="btn btn-outline-danger btn-sm"><i class="bi bi-box-arrow-right me-1"></i>Logout</button>
+            </div>
         </div>
 
-        <div class="card mb-4">
-            <div class="card-header bg-dark text-white" id="form-title">Add New Tenant</div>
-            <div class="card-body">
-                <form id="tenant-form">
-                    <input type="hidden" id="tenant-id">
-                    <div class="row g-3">
-                        <div class="col-md-5">
-                            <input type="text" id="tenant-name" class="form-control" placeholder="Full Name" required>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="text" id="room-number" class="form-control" placeholder="Room No." required>
-                        </div>
-                        <div class="col-md-3 d-grid">
-                            <button type="submit" id="submit-btn" class="btn btn-success">Save Tenant</button>
+        <ul class="nav nav-tabs mb-3" id="dormTabs" role="tablist">
+            <li class="nav-item">
+                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button"><i class="bi bi-grid-1x2-fill me-1"></i> Overview</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" id="occupants-tab" data-bs-toggle="tab" data-bs-target="#occupants" type="button"><i class="bi bi-people-fill me-1"></i> Occupants Mgt.</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" id="rooms-tab" data-bs-toggle="tab" data-bs-target="#rooms" type="button"><i class="bi bi-door-open-fill me-1"></i> Rooms Mgt.</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="dormTabsContent">
+            
+            <div class="tab-pane fade show active" id="overview">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="card p-3 bg-primary text-white dashboard-card">
+                            <h6>Kabuuang Kwarto</h6>
+                            <h2 id="stat-total-rooms">0</h2>
                         </div>
                     </div>
-                </form>
+                    <div class="col-md-6">
+                        <div class="card p-3 bg-success text-white dashboard-card">
+                            <h6>Kabuuang Occupants</h6>
+                            <h2 id="stat-total-occupants">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-4 shadow-sm">
+                    <h5 class="fw-bold mb-3">Dormitory Status Table</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Dorm ID</th>
+                                    <th>Dorm Unit Info</th>
+                                    <th>Kuwarto Blg.</th>
+                                    <th>Occupants Checked-In</th>
+                                </tr>
+                            </thead>
+                            <tbody id="overview-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <h4 class="mb-3">Current Tenants</h4>
-        <table class="table table-bordered table-striped">
-            <thead class="table-primary">
-                <tr>
-                    <th>Name</th>
-                    <th>Room Number</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="tenants-table-body">
-                </tbody>
-        </table>
+            <div class="tab-pane fade" id="occupants">
+                <div class="row g-3">
+                    <div class="col-lg-4">
+                        <div class="card p-3 shadow-sm">
+                            <h6 class="fw-bold text-secondary mb-3" id="occ-form-title">Magdagdag ng Occupant</h6>
+                            <form id="occ-form">
+                                <input type="hidden" id="occ-id">
+                                <div class="mb-2"><input type="text" id="occ-lastname" class="form-control form-control-sm" placeholder="Apelyido" required></div>
+                                <div class="mb-2"><input type="text" id="occ-firstname" class="form-control form-control-sm" placeholder="Pangalan" required></div>
+                                <div class="mb-2"><input type="text" id="occ-middlename" class="form-control form-control-sm" placeholder="Gitnang Pangalan"></div>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6"><input type="number" id="occ-age" class="form-control form-control-sm" placeholder="Edad" required></div>
+                                    <div class="col-6"><input type="date" id="occ-birthday" class="form-control form-control-sm" required></div>
+                                </div>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6">
+                                        <select id="occ-gender" class="form-select form-select-sm" required>
+                                            <option value="">Kasarian</option>
+                                            <option value="Male">Lalaki</option>
+                                            <option value="Female">Babae</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <select id="occ-status" class="form-select form-select-sm" required>
+                                            <option value="Active">Active</option>
+                                            <option value="Inactive">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6"><input type="text" id="occ-dormid" class="form-control form-control-sm" placeholder="Dorm ID" required></div>
+                                    <div class="col-6"><input type="text" id="occ-roomnum" class="form-control form-control-sm" placeholder="Room Number" required></div>
+                                </div>
+                                <div class="mb-2"><input type="text" id="occ-contact" class="form-control form-control-sm" placeholder="Contact No." required></div>
+                                <div class="mb-3"><input type="text" id="occ-emergency" class="form-control form-control-sm" placeholder="Emergency Contact No."></div>
+                                <div class="d-grid"><button type="submit" id="occ-submit-btn" class="btn btn-success btn-sm">I-save Occupant</button></div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="card p-3 shadow-sm">
+                            <h6 class="fw-bold text-secondary mb-3">Talaan ng mga Occupants</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-striped align-middle">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th>Pangalan</th>
+                                            <th>Dorm/Kuwarto</th>
+                                            <th>Edad/Kasarian</th>
+                                            <th>Contact</th>
+                                            <th>Aksyon</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="occ-table-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="rooms">
+                <div class="row g-3">
+                    <div class="col-lg-4">
+                        <div class="card p-3 shadow-sm">
+                            <h6 class="fw-bold text-secondary mb-3" id="room-form-title">Magdagdag ng Kwarto</h6>
+                            <form id="room-form">
+                                <input type="hidden" id="room-id">
+                                <div class="mb-2"><input type="text" id="room-number-input" class="form-control form-control-sm" placeholder="Room Number" required></div>
+                                <div class="mb-2"><input type="text" id="room-dorm-id" class="form-control form-control-sm" placeholder="Dorm ID" required></div>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6"><input type="number" id="room-capacity" class="form-control form-control-sm" placeholder="Capacity" required></div>
+                                    <div class="col-6"><input type="number" id="room-floor" class="form-control form-control-sm" placeholder="Floor No." required></div>
+                                </div>
+                                <div class="mb-2"><input type="text" id="room-cr" class="form-control form-control-sm" placeholder="CR (e.g., Shared/Private)"></div>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6"><input type="number" id="room-lamps" class="form-control form-control-sm" placeholder="Lamps"></div>
+                                    <div class="col-6"><input type="number" id="room-windows" class="form-control form-control-sm" placeholder="Windows"></div>
+                                </div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-6"><input type="text" id="room-size" class="form-control form-control-sm" placeholder="Size (sqm)"></div>
+                                    <div class="col-6"><input type="number" id="room-rent" class="form-control form-control-sm" placeholder="Rent Price" required></div>
+                                </div>
+                                <div class="d-grid"><button type="submit" id="room-submit-btn" class="btn btn-success btn-sm">I-save Kwarto</button></div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="card p-3 shadow-sm">
+                            <h6 class="fw-bold text-secondary mb-3">Talaan ng mga Kwarto</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-striped align-middle">
+                                    <thead class="table-success">
+                                        <tr>
+                                            <th>Room No.</th>
+                                            <th>Dorm ID</th>
+                                            <th>Kapasidad</th>
+                                            <th>Upa (Rent)</th>
+                                            <th>Aksyon</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="rooms-table-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot } 
-        from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-        // Idinagdag ang Firebase Auth
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } 
-        from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-        // // 📝 PAALALA: Iwanan dito ang sarili mong Firebase Config na ginamit mo kanina!
-        // const firebaseConfig = {
-        //     apiKey: "YOUR_API_KEY",
-        //     authDomain: "YOUR_AUTH_DOMAIN",
-        //     projectId: "YOUR_PROJECT_ID",
-        //     storageBucket: "YOUR_STORAGE_BUCKET",
-        //     messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-        //     appId: "YOUR_APP_ID"
-        // };
-
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCp9DoerhTYmVnHFFUbeDikE_6FYmgzGnQ",
-  authDomain: "dorm-system-55b8b.firebaseapp.com",
-  projectId: "dorm-system-55b8b",
-  storageBucket: "dorm-system-55b8b.firebasestorage.app",
-  messagingSenderId: "897080807478",
-  appId: "1:897080807478:web:fe9e224ee2fa4184ce8897",
-  measurementId: "G-04VBNL2XZD"
-};
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        window.db = db;
-        window.auth = auth;
-        window.dbTools = { collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot };
-        window.authTools = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged };
-    </script>
-
+    <script type="module" src="firebase-config.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
