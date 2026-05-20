@@ -31,14 +31,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
     let isLoginMode = true;
     let editMode = false;
-    let unsubscribeSnapshot = null; // Para i-stop ang pakikinig sa DB kapag nag-logout
+    let unsubscribeSnapshot = null;
 
     // ==========================================
     // 🔐 AUTHENTICATION LOGIC (LOGIN / REGISTER)
     // ==========================================
 
-    // Magpalit mula sa Login papuntang Register UI at vice-versa
-    toggleAuthBtn.addEventListener('click', () => {
+    // PINASIMPLENG TOGGLE FUNCTION PARA SA REGISTER LINK
+    toggleAuthBtn.onclick = function() {
         isLoginMode = !isLoginMode;
         if (isLoginMode) {
             authTitle.textContent = "Dorm System Login";
@@ -49,13 +49,19 @@ window.addEventListener('DOMContentLoaded', () => {
             authBtn.textContent = "Register";
             toggleAuthBtn.textContent = "Already have an account? Login";
         }
-    });
+    };
 
     // Handle Auth Form Submit
     authForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = authEmail.value;
         const password = authPassword.value;
+
+        // SIGURADUHING KULANG SA 6 CHARACTERS ANG PASSWORD
+        if (password.length < 6) {
+            alert("Password must be at least 6 characters long!");
+            return;
+        }
 
         try {
             if (isLoginMode) {
@@ -69,7 +75,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             authForm.reset();
         } catch (error) {
-            alert("Error: " + error.message);
+            alert("Firebase Error: " + error.message);
         }
     });
 
@@ -80,27 +86,23 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Tagabantay kung may naka-login o wala (State Observer)
+    // State Observer (Taga-bantay kung may naka-login)
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            // May naka-login: Ipakita ang system, itago ang login screen
             authScreen.style.display = 'none';
             mainSystem.style.display = 'block';
-            startRealtimeListener(); // Paganahin ang Read ng data
+            startRealtimeListener();
         } else {
-            // Walang naka-login: Ipakita ang login screen, itago ang system
             authScreen.style.display = 'block';
             mainSystem.style.display = 'none';
             tableBody.innerHTML = "";
-            if (unsubscribeSnapshot) unsubscribeSnapshot(); // Patayin ang DB listener para sa security
+            if (unsubscribeSnapshot) unsubscribeSnapshot();
         }
     });
 
-
     // ==========================================
-    // 🏠 DORMITORY CRUD LOGIC (Gaya ng dati)
+    // 🏠 DORMITORY CRUD LOGIC
     // ==========================================
-
     function startRealtimeListener() {
         unsubscribeSnapshot = onSnapshot(tenantCollection, (snapshot) => {
             tableBody.innerHTML = "";
