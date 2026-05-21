@@ -30,6 +30,7 @@
                 </div>
                 <div class="d-grid gap-2 mt-4">
                     <button type="submit" id="auth-btn" class="btn btn-maroon p-2 fw-bold shadow-sm">Login to System</button>
+                    <button type="button" id="toggle-auth" class="btn btn-link btn-sm text-decoration-none text-maroon fw-semibold mt-2">Need an Admin Account? Register Here</button>
                 </div>
             </form>
         </div>
@@ -57,11 +58,6 @@
                 </li>
                 <li class="nav-item">
                     <button class="nav-link fw-bold" id="rooms-tab" data-bs-toggle="tab" data-bs-target="#rooms" type="button"><i class="bi bi-door-open-fill me-1"></i> Rooms Registry</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link fw-bold" id="admins-tab" data-bs-toggle="tab" data-bs-target="#admins" type="button">
-                        <i class="bi bi-person-badge-fill me-1"></i> Admin Management
-                    </button>
                 </li>
             </ul>
 
@@ -182,103 +178,55 @@
                     </div>
                 </div>
 
-                    <div class="tab-pane fade" id="rooms">
-                        <div class="row g-4">
-                            <div class="col-lg-4">
-                                <div class="card shadow-sm border-top-maroon content-card">
-                                    <div class="card-body">
-                                        <h5 class="fw-bold text-maroon mb-3" id="room-form-title"><i class="bi bi-door-open-fill me-1"></i> Provision New Room</h5>
-                                        <form id="room-form">
-                                            <input type="hidden" id="room-id">
-                                            <div class="mb-2"><input type="text" id="room-number-input" class="form-control form-control-sm" placeholder="Room Number" required></div>
-                                            <div class="mb-2"><input type="text" id="room-dorm-id" class="form-control form-control-sm" placeholder="Dorm ID" required></div>
-                                            <div class="row g-2 mb-2">
-                                                <div class="col-6"><input type="number" id="room-capacity" class="form-control form-control-sm" placeholder="Capacity Slots" required></div>
-                                                <div class="col-6"><input type="number" id="room-floor" class="form-control form-control-sm" placeholder="Floor Level" required></div>
-                                            </div>
-                                            <div class="mb-2"><input type="text" id="room-cr" class="form-control form-control-sm" placeholder="CR System Architecture (e.g., Shared/Private)"></div>
-                                            <div class="row g-2 mb-2">
-                                                <div class="col-6"><input type="number" id="room-lamps" class="form-control form-control-sm" placeholder="Lamps Loaded"></div>
-                                                <div class="col-6"><input type="number" id="room-windows" class="form-control form-control-sm" placeholder="Windows Built"></div>
-                                            </div>
-                                            <div class="row g-2 mb-3">
-                                                <div class="col-6"><input type="text" id="room-size" class="form-control form-control-sm" placeholder="Floor Size (sqm)"></div>
-                                                <div class="col-6"><input type="number" id="room-rent" class="form-control form-control-sm" placeholder="Monthly Fee (PHP)" required></div>
-                                            </div>
-                                            <div class="d-grid"><button type="submit" id="room-submit-btn" class="btn btn-maroon btn-sm fw-bold shadow-sm">Save Room Unit</button></div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="card shadow-sm content-card">
-                                    <div class="card-header bg-maroon p-3">
-                                        <h6 class="m-0 fw-bold text-white"><i class="bi bi-building-check me-2 text-gold"></i>Room Assets Registry Matrix</h6>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-hover m-0 align-middle">
-                                                <thead class="table-light-maroon-header">
-                                                    <tr>
-                                                        <th>Room Code</th>
-                                                        <th>Dorm Link</th>
-                                                        <th>Capacity Limits</th>
-                                                        <th>Rental Rate</th>
-                                                        <th>Management Operations</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="rooms-table-body"></tbody>
-                                            </table>
+                <div class="tab-pane fade" id="rooms">
+                    <div class="row g-4">
+                        <div class="col-lg-4">
+                            <div class="card shadow-sm border-top-maroon content-card">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-maroon mb-3" id="room-form-title"><i class="bi bi-door-open-fill me-1"></i> Provision New Room</h5>
+                                    <form id="room-form">
+                                        <input type="hidden" id="room-id">
+                                        <div class="mb-2"><input type="text" id="room-number-input" class="form-control form-control-sm" placeholder="Room Number" required></div>
+                                        <div class="mb-2"><input type="text" id="room-dorm-id" class="form-control form-control-sm" placeholder="Dorm ID" required></div>
+                                        <div class="row g-2 mb-2">
+                                            <div class="col-6"><input type="number" id="room-capacity" class="form-control form-control-sm" placeholder="Capacity Slots" required></div>
+                                            <div class="col-6"><input type="number" id="room-floor" class="form-control form-control-sm" placeholder="Floor Level" required></div>
                                         </div>
-                                    </div>
+                                        <div class="mb-2"><input type="text" id="room-cr" class="form-control form-control-sm" placeholder="CR System Architecture (e.g., Shared/Private)"></div>
+                                        <div class="row g-2 mb-2">
+                                            <div class="col-6"><input type="number" id="room-lamps" class="form-control form-control-sm" placeholder="Lamps Loaded"></div>
+                                            <div class="col-6"><input type="number" id="room-windows" class="form-control form-control-sm" placeholder="Windows Built"></div>
+                                        </div>
+                                        <div class="row g-2 mb-3">
+                                            <div class="col-6"><input type="text" id="room-size" class="form-control form-control-sm" placeholder="Floor Size (sqm)"></div>
+                                            <div class="col-6"><input type="number" id="room-rent" class="form-control form-control-sm" placeholder="Monthly Fee (PHP)" required></div>
+                                        </div>
+                                        <div class="d-grid"><button type="submit" id="room-submit-btn" class="btn btn-maroon btn-sm fw-bold shadow-sm">Save Room Unit</button></div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                <div class="tab-pane fade" id="admins">
-        <div class="row g-4">
-
-            <div class="col-lg-4">
-                <div class="card shadow-sm border-top-maroon content-card">
-                    <div class="card-body">
-                        <h5 class="fw-bold text-maroon mb-3">
-                            <i class="bi bi-person-plus-fill me-1"></i>
-                            Create New Administrator
-                        </h5>
-
-                        <form id="admin-form">
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">Admin Email</label>
-                                <input type="email" id="new-admin-email" class="form-control form-control-sm" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">Temporary Password</label>
-                                <input type="password" id="new-admin-password" class="form-control form-control-sm" required>
-                            </div>
-
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-maroon btn-sm fw-bold shadow-sm">
-                                    Add Administrator
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-                <div class="col-lg-8">
-                    <div class="card shadow-sm content-card">
-                        <div class="card-header bg-maroon p-3">
-                            <h6 class="m-0 fw-bold text-white">
-                                <i class="bi bi-shield-lock-fill me-2 text-gold"></i>
-                                Registered System Administrators
-                            </h6>
-                        </div>
-
-                        <div class="card-body">
-                            <div class="alert alert-warning small mb-0">
-                                Admin accounts are managed through Firebase Authentication.
-                                Only authenticated administrators can create new admin accounts.
+                        <div class="col-lg-8">
+                            <div class="card shadow-sm content-card">
+                                <div class="card-header bg-maroon p-3">
+                                    <h6 class="m-0 fw-bold text-white"><i class="bi bi-building-check me-2 text-gold"></i>Room Assets Registry Matrix</h6>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover m-0 align-middle">
+                                            <thead class="table-light-maroon-header">
+                                                <tr>
+                                                    <th>Room Code</th>
+                                                    <th>Dorm Link</th>
+                                                    <th>Capacity Limits</th>
+                                                    <th>Rental Rate</th>
+                                                    <th>Management Operations</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="rooms-table-body"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -287,8 +235,6 @@
             </div>
         </div>
     </div>
-</div>
-</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

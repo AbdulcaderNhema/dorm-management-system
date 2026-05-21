@@ -1,4 +1,4 @@
-Window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
     // Extract Firebase Global Instance Modules
     const db = window.db;
     const auth = window.auth;
@@ -20,10 +20,8 @@ Window.addEventListener('DOMContentLoaded', () => {
     const authPassword = document.getElementById('auth-password');
     const authTitle = document.getElementById('auth-title');
     const authBtn = document.getElementById('auth-btn');
-  // Admin Management Elements
-    const adminForm = document.getElementById('admin-form');
-    const newAdminEmail = document.getElementById('new-admin-email');
-    const newAdminPassword = document.getElementById('new-admin-password');
+    const toggleAuthBtn = document.getElementById('toggle-auth');
+    const logoutBtn = document.getElementById('logout-btn');
 
     // Tenant Profile Input Elements
     const occForm = document.getElementById('occ-form');
@@ -76,6 +74,18 @@ Window.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 🔐 DYNAMIC ACCESS SESSION CONTROLLER INTERFACES
     // ==========================================
+    toggleAuthBtn.onclick = function() {
+        isLoginMode = !isLoginMode;
+        if (isLoginMode) {
+            authTitle.textContent = "MSU-Main Dormitory";
+            authBtn.textContent = "Login to System";
+            toggleAuthBtn.textContent = "Need an Admin Account? Register Here";
+        } else {
+            authTitle.textContent = "Register Administrator";
+            authBtn.textContent = "Create Account";
+            toggleAuthBtn.textContent = "Already registered? Login here";
+        }
+    };
 
     authForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -88,7 +98,12 @@ Window.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            if (isLoginMode) {
+                await signInWithEmailAndPassword(auth, email, password);
+            } else {
+                await createUserWithEmailAndPassword(auth, email, password);
+                alert("Success: Administrator login account provisioned.");
+            }
             authForm.reset();
         } catch (error) {
             alert("Access Authentication Error: " + error.message);
@@ -305,34 +320,4 @@ Window.addEventListener('DOMContentLoaded', () => {
             await deleteDoc(doc(db, "rooms", id));
         }
     };
-
-    // ==========================================
-    // 👮 ADMIN MANAGEMENT OPERATIONS
-    // ==========================================
-    adminForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const email = newAdminEmail.value.trim();
-        const password = newAdminPassword.value.trim();
-
-        if (password.length < 6) {
-            alert("Password must contain at least 6 characters.");
-            return;
-        }
-
-        try {
-            await createUserWithEmailAndPassword(auth, email, password);
-
-           alert("New administrator account created successfully.");
-
-            adminForm.reset();
-
-            // IMPORTANT:
-           // Firebase automatically logs into the newly created account.
-            // Re-login may be needed for the original admin.
-
-        } catch (error) {
-            alert("Admin creation failed: " + error.message);
-        }
-    });
 });
