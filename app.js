@@ -8,6 +8,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // Database Reference Points Hooks
     const occupantsCollection = collection(db, "occupants");
     const roomsCollection = collection(db, "rooms");
+    const usersCollection = collection(db, "users");
 
     // Standalone Workflow Window State Handles
     const authScreen = document.getElementById('auth-screen');
@@ -66,8 +67,16 @@ window.addEventListener('DOMContentLoaded', () => {
     const statTotalOccupants = document.getElementById('stat-total-occupants');
     const overviewTableBody = document.getElementById('overview-table-body');
 
+    const adminForm = document.getElementById('admin-form');
+    const newAdminEmail = document.getElementById('new-admin-email');
+    const newAdminPassword = document.getElementById('new-admin-password');
+    const newAdminRole = document.getElementById('new-admin-role');
+    const usersTableBody = document.getElementById('users-table-body');
+
     let localRooms = [];
     let localOccupants = [];
+    let localUsers = [];
+    let currentUserRole = "";
     let occEditMode = false;
     let roomEditMode = false;
     let isLoginMode = true;
@@ -75,7 +84,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let unsubRooms = null;
 
     // ==========================================
-    // 🔐 CONTROL DECK ACCESS MANAGER SESSIONS
+    // CONTROL DECK ACCESS MANAGER SESSIONS
     // ==========================================
 
     authForm.addEventListener('submit', async (e) => {
@@ -101,14 +110,58 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    adminForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (currentUserRole !== "admin") {
+            alert("Access denied. Only admins can create users.");
+            return;
+        }
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                newAdminEmail.value,
+                newAdminPassword.value
+            );
+
+            await addDoc(usersCollection, {
+                uid: userCredential.user.uid,
+                email: newAdminEmail.value,
+                role: newAdminRole.value
+            });
+
+            alert("User account created successfully.");
+
+            adminForm.reset();
+
+        } catch (error) {
+            alert(error.message);
+        }
+    });
+
     logoutBtn.addEventListener('click', async () => {
         if (confirm("Core System Notice: Disconnect active administration token session window?")) {
             await signOut(auth);
         }
     });
 
-    // 💥 PROGRAMMATIC ROUTING CONTROLLER BETWEEN LOGIN AND DORMITORY HUB WORKSPACE
+    // PROGRAMMATIC ROUTING CONTROLLER BETWEEN LOGIN AND DORMITORY HUB WORKSPACE
     onAuthStateChanged(auth, (user) => {
+        userDisplay.textContent = `Admin: ${user.email}`;
+        onSnapshot(usersCollection, (snapshot) => {
+            snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+
+            if (data.uid === user.uid) {
+                currentUserRole = data.role;
+
+                if (currentUserRole !== "admin") {
+                   document.getElementById('admins-tab').style.display = "none";
+                }
+            }
+        });
+    });
         if (user) {
             // SUCCESSFUL SESSION: Completely hides Login overlay screen, brings the glassmorphism workspace to view
             authScreen.style.setProperty('display', 'none', 'important');
@@ -124,9 +177,44 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // 📊 REALTIME SNAPSHOT STREAM SUBSCRIPTIONS
+    // REALTIME SNAPSHOT STREAM SUBSCRIPTIONS
     // ==========================================
     function startDataSync() {
+        onSnapshot(usersCollection, (snapshot) => {
+            localUsers = [];
+            usersTableBody.innerHTML = "";
+
+            snapshot.forEach((docSnap) => {
+                const user = docSnap.data();
+
+                localUsers.push({
+                    id: docSnap.id,
+                    ...user
+                });
+
+                usersTableBody.innerHTML += `
+                    <tr>
+                        <td>${user.email}</td>
+                        <td>
+                            <span class="badge bg-maroon">
+                                ${user.role}
+                            </span>
+                        </td>
+                        <td>
+                            ${
+                                currentUserRole === "admin"
+                                ? `<button class="btn btn-danger btn-xs"
+                                    onclick="deleteUser('${docSnap.id}')">
+                                    Remove
+                                </button>`
+                                : 'Restricted'
+                            }
+                        </td>
+                    </tr>
+                `;
+            });
+        });
+
         unsubRooms = onSnapshot(roomsCollection, (snapshot) => {
             localRooms = [];
             roomsTableBody.innerHTML = "";
@@ -197,7 +285,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 🧑‍🤝‍🧑 OCCUPANTS OPERATION ENGINE (CRUD)
+    // OCCUPANTS OPERATION ENGINE (CRUD)
     // ==========================================
     occForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -257,7 +345,7 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     // ==========================================
-    // 🚪 ROOMS OPERATION ENGINE (CRUD)
+    // ROOMS OPERATION ENGINE (CRUD)
     // ==========================================
     roomForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -312,7 +400,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     };
     // ==========================================
-    // 👮 ADMIN MANAGEMENT OPERATIONS
+    // ADMIN MANAGEMENT OPERATIONS
     // ==========================================
     adminForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -340,4 +428,16 @@ window.addEventListener('DOMContentLoaded', () => {
             alert("Admin creation failed: " + error.message);
         }
     });
+
+    window.deleteUser = async (id) => {
+
+            if (currentUserRole !== "admin") {
+            alert("Only admins can remove users.");
+            return;
+        }
+
+        if (confirm("Remove this user account access?")) {
+            await deleteDoc(doc(db, "users", id));
+        }
+    };
 });

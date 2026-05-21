@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot } 
+import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot, getDocs}
 from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } 
 from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
@@ -33,5 +33,5 @@ const auth = getAuth(app);
 // Package hooks onto window runtime lifecycle instances
 window.db = db;
 window.auth = auth;
-window.dbTools = { collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot };
+window.dbTools = {collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot, getDocs};
 window.authTools = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged };
