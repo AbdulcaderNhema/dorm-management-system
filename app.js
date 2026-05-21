@@ -1,34 +1,31 @@
-window.addEventListener('DOMContentLoaded', () => {
-    // Unpack Shared Cloud Firestore & Authentication Framework Tools
+Window.addEventListener('DOMContentLoaded', () => {
+    // Extract Firebase Global Instance Modules
     const db = window.db;
     const auth = window.auth;
     const { collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot } = window.dbTools;
     const { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } = window.authTools;
 
-    // Database Reference Points Hooks
+    // Database Cloud Pointer Nodes
     const occupantsCollection = collection(db, "occupants");
     const roomsCollection = collection(db, "rooms");
-    const usersCollection = collection(db, "users");
 
-    // Standalone Workflow Window State Handles
+    // Independent Window Display Targets
     const authScreen = document.getElementById('auth-screen');
     const mainSystem = document.getElementById('main-system');
     const userDisplay = document.getElementById('user-display');
 
-    // Access Authentication Form Elements handles
+    // Access Authentication Input Nodes
     const authForm = document.getElementById('auth-form');
     const authEmail = document.getElementById('auth-email');
     const authPassword = document.getElementById('auth-password');
     const authTitle = document.getElementById('auth-title');
     const authBtn = document.getElementById('auth-btn');
-    const toggleAuthBtn = document.getElementById('toggle-auth');
-    const logoutBtn = document.getElementById('logout-btn');
-    // Admin Management Elements
+  // Admin Management Elements
     const adminForm = document.getElementById('admin-form');
     const newAdminEmail = document.getElementById('new-admin-email');
     const newAdminPassword = document.getElementById('new-admin-password');
 
-    // Directory Workspace Inputs Targets
+    // Tenant Profile Input Elements
     const occForm = document.getElementById('occ-form');
     const occId = document.getElementById('occ-id');
     const occLastname = document.getElementById('occ-lastname');
@@ -46,7 +43,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const occFormTitle = document.getElementById('occ-form-title');
     const occTableBody = document.getElementById('occ-table-body');
 
-    // Registry Workspace Inputs Targets
+    // Room Property Input Elements
     const roomForm = document.getElementById('room-form');
     const roomId = document.getElementById('room-id');
     const roomNumberInput = document.getElementById('room-number-input');
@@ -62,29 +59,22 @@ window.addEventListener('DOMContentLoaded', () => {
     const roomFormTitle = document.getElementById('room-form-title');
     const roomsTableBody = document.getElementById('rooms-table-body');
 
-    // Metric Summary Presentation Handles
+    // Total Aggregates Tracking Targets
     const statTotalRooms = document.getElementById('stat-total-rooms');
     const statTotalOccupants = document.getElementById('stat-total-occupants');
     const overviewTableBody = document.getElementById('overview-table-body');
 
-    const adminForm = document.getElementById('admin-form');
-    const newAdminEmail = document.getElementById('new-admin-email');
-    const newAdminPassword = document.getElementById('new-admin-password');
-    const newAdminRole = document.getElementById('new-admin-role');
-    const usersTableBody = document.getElementById('users-table-body');
-
     let localRooms = [];
     let localOccupants = [];
-    let localUsers = [];
-    let currentUserRole = "";
+    let isLoginMode = true;
     let occEditMode = false;
     let roomEditMode = false;
-    let isLoginMode = true;
+
     let unsubOccupants = null;
     let unsubRooms = null;
 
     // ==========================================
-    // CONTROL DECK ACCESS MANAGER SESSIONS
+    // 🔐 DYNAMIC ACCESS SESSION CONTROLLER INTERFACES
     // ==========================================
 
     authForm.addEventListener('submit', async (e) => {
@@ -93,83 +83,34 @@ window.addEventListener('DOMContentLoaded', () => {
         const password = authPassword.value;
 
         if (password.length < 6) {
-            alert("Security Core: Password parameters length matrix must equal at least 6 characters.");
+            alert("Security Notice: Password length validation must match at least 6 characters.");
             return;
         }
 
         try {
-            if (isLoginMode) {
-                await signInWithEmailAndPassword(auth, email, password);
-            } else {
-                await createUserWithEmailAndPassword(auth, email, password);
-                alert("Success: System administration access credentials established.");
-            }
+            await signInWithEmailAndPassword(auth, email, password);
             authForm.reset();
         } catch (error) {
-            alert("Security Gatekeeper Notification: " + error.message);
-        }
-    });
-
-    adminForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        if (currentUserRole !== "admin") {
-            alert("Access denied. Only admins can create users.");
-            return;
-        }
-
-        try {
-            const userCredential = await createUserWithEmailAndPassword(
-                auth,
-                newAdminEmail.value,
-                newAdminPassword.value
-            );
-
-            await addDoc(usersCollection, {
-                uid: userCredential.user.uid,
-                email: newAdminEmail.value,
-                role: newAdminRole.value
-            });
-
-            alert("User account created successfully.");
-
-            adminForm.reset();
-
-        } catch (error) {
-            alert(error.message);
+            alert("Access Authentication Error: " + error.message);
         }
     });
 
     logoutBtn.addEventListener('click', async () => {
-        if (confirm("Core System Notice: Disconnect active administration token session window?")) {
+        if (confirm("System Control Notification: Are you sure you want to sign out from the active session?")) {
             await signOut(auth);
         }
     });
 
-    // PROGRAMMATIC ROUTING CONTROLLER BETWEEN LOGIN AND DORMITORY HUB WORKSPACE
+    // 💥 HANDLES INDEPENDENT SEPARATE POPUP DISPLAY LAYOUT LOGIC
     onAuthStateChanged(auth, (user) => {
-        userDisplay.textContent = `Admin: ${user.email}`;
-        onSnapshot(usersCollection, (snapshot) => {
-            snapshot.forEach((docSnap) => {
-                const data = docSnap.data();
-
-            if (data.uid === user.uid) {
-                currentUserRole = data.role;
-
-                if (currentUserRole !== "admin") {
-                   document.getElementById('admins-tab').style.display = "none";
-                }
-            }
-        });
-    });
         if (user) {
-            // SUCCESSFUL SESSION: Completely hides Login overlay screen, brings the glassmorphism workspace to view
+            // Hides authentication card container cleanly and triggers dashboard workspace visibility
             authScreen.style.setProperty('display', 'none', 'important');
             mainSystem.style.setProperty('display', 'block', 'important');
             userDisplay.textContent = `Admin: ${user.email}`;
             startDataSync();
         } else {
-            // NO SESSION ACCESSED: Force clears workflow data visibility frames, displays Login UI standalone
+            // Destroys dashboard workspace visibility structure and loads login card frame standalone
             authScreen.style.setProperty('display', 'flex', 'important');
             mainSystem.style.setProperty('display', 'none', 'important');
             stopDataSync();
@@ -177,44 +118,9 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // REALTIME SNAPSHOT STREAM SUBSCRIPTIONS
+    // 📊 CLOUD DATABASE SYNCHRONIZATION ENGINES
     // ==========================================
     function startDataSync() {
-        onSnapshot(usersCollection, (snapshot) => {
-            localUsers = [];
-            usersTableBody.innerHTML = "";
-
-            snapshot.forEach((docSnap) => {
-                const user = docSnap.data();
-
-                localUsers.push({
-                    id: docSnap.id,
-                    ...user
-                });
-
-                usersTableBody.innerHTML += `
-                    <tr>
-                        <td>${user.email}</td>
-                        <td>
-                            <span class="badge bg-maroon">
-                                ${user.role}
-                            </span>
-                        </td>
-                        <td>
-                            ${
-                                currentUserRole === "admin"
-                                ? `<button class="btn btn-danger btn-xs"
-                                    onclick="deleteUser('${docSnap.id}')">
-                                    Remove
-                                </button>`
-                                : 'Restricted'
-                            }
-                        </td>
-                    </tr>
-                `;
-            });
-        });
-
         unsubRooms = onSnapshot(roomsCollection, (snapshot) => {
             localRooms = [];
             roomsTableBody.innerHTML = "";
@@ -225,7 +131,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     <tr>
                         <td><strong>Room No. ${r.roomNum}</strong></td>
                         <td><span class="badge bg-maroon">${r.dormId}</span></td>
-                        <td>${r.capacity} Total Slots</td>
+                        <td>${r.capacity} Slots Cap</td>
                         <td class="fw-bold text-success">PHP ${r.rent}</td>
                         <td>
                             <button class="btn btn-warning btn-xs fw-bold text-dark me-1" onclick="editRoomTrigger('${doc.id}', '${r.roomNum}', '${r.dormId}', ${r.capacity}, ${r.floor}, '${r.cr}', ${r.lamps}, ${r.windows}, '${r.size}', ${r.rent})">Edit</button>
@@ -245,7 +151,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 occTableBody.innerHTML += `
                     <tr>
                         <td><strong>${o.lastname}</strong>, ${o.firstname}</td>
-                        <td>Dorm: ${o.dormId} / Room: ${o.roomNum}</td>
+                        <td>Dorm: ${o.dormId} / Suite: ${o.roomNum}</td>
                         <td>${o.age} yrs / ${o.gender}</td>
                         <td>${o.contact}</td>
                         <td>
@@ -277,15 +183,15 @@ window.addEventListener('DOMContentLoaded', () => {
             overviewTableBody.innerHTML += `
                 <tr>
                     <td><span class="badge bg-maroon">${room.dormId}</span></td>
-                    <td>Dorm Complex Floor Allocation: ${room.floor}</td>
+                    <td>Dorm Complex Floor Level: ${room.floor}</td>
                     <td><strong>Room Suite ${room.roomNum}</strong></td>
-                    <td><span class="text-dark fw-semibold small"><i class="bi bi-person-check-fill text-success me-1"></i> ${occupantNames} (${activeMatches.length}/${room.capacity} slots loaded)</span></td>
+                    <td><span class="text-dark fw-semibold small"><i class="bi bi-person-check-fill text-success me-1"></i> ${occupantNames} (${activeMatches.length}/${room.capacity} slots filled)</span></td>
                 </tr>`;
         });
     }
 
     // ==========================================
-    // OCCUPANTS OPERATION ENGINE (CRUD)
+    // 🧑‍🤝‍🧑 OCCUPANTS DATA ACTIONS HANDLERS (CRUD)
     // ==========================================
     occForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -331,21 +237,21 @@ window.addEventListener('DOMContentLoaded', () => {
         occEmergency.value = emer;
 
         occEditMode = true;
-        occSubmitBtn.textContent = "Apply Modification Matrix";
+        occSubmitBtn.textContent = "Apply Entry Changes";
         occSubmitBtn.className = "btn btn-warning btn-sm fw-bold text-dark";
-        occFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Adjusting Target Occupant Trace`;
+        occFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Modifying Occupant Metrics`;
         
         document.getElementById('occupants-tab').click();
     };
 
     window.deleteOcc = async (id) => {
-        if (confirm("Core Warning: Delete target occupant tracking metrics from database storage files?")) {
+        if (confirm("Permanently destroy this occupant directory registry trace?")) {
             await deleteDoc(doc(db, "occupants", id));
         }
     };
 
     // ==========================================
-    // ROOMS OPERATION ENGINE (CRUD)
+    // 🚪 ROOMS DATA DATA HANDLERS (CRUD)
     // ==========================================
     roomForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -387,20 +293,21 @@ window.addEventListener('DOMContentLoaded', () => {
         roomRent.value = rnt;
 
         roomEditMode = true;
-        roomSubmitBtn.textContent = "Apply Configuration Updates";
+        roomSubmitBtn.textContent = "Apply Asset Changes";
         roomSubmitBtn.className = "btn btn-warning btn-sm fw-bold text-dark";
-        roomFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Adjusting Target Room Parameters`;
+        roomFormTitle.innerHTML = `<i class="bi bi-pencil-square me-1"></i> Modifying Room Parameters`;
 
         document.getElementById('rooms-tab').click();
     };
 
     window.deleteRoom = async (id) => {
-        if (confirm("Core Warning: Destroy target room profile index metrics trace configuration file?")) {
+        if (confirm("Permanently destroy this room configuration tracking file instance?")) {
             await deleteDoc(doc(db, "rooms", id));
         }
     };
+
     // ==========================================
-    // ADMIN MANAGEMENT OPERATIONS
+    // 👮 ADMIN MANAGEMENT OPERATIONS
     // ==========================================
     adminForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -416,7 +323,7 @@ window.addEventListener('DOMContentLoaded', () => {
         try {
             await createUserWithEmailAndPassword(auth, email, password);
 
-            alert("New administrator account created successfully.");
+           alert("New administrator account created successfully.");
 
             adminForm.reset();
 
@@ -428,16 +335,4 @@ window.addEventListener('DOMContentLoaded', () => {
             alert("Admin creation failed: " + error.message);
         }
     });
-
-    window.deleteUser = async (id) => {
-
-            if (currentUserRole !== "admin") {
-            alert("Only admins can remove users.");
-            return;
-        }
-
-        if (confirm("Remove this user account access?")) {
-            await deleteDoc(doc(db, "users", id));
-        }
-    };
 });
